@@ -16,6 +16,8 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["source/"])
 sources = Glob("source/*.cpp")
 sources.extend(Glob("source/test/*.cpp"))
+sources.extend(Glob("source/game_logic/*.cpp"))
+sources.extend(Glob("source/controllers/*.cpp"))
 
 print("sources " + str(sources))
 

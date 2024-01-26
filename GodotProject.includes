@@ -33,3 +33,5 @@ godot-cpp/misc/hooks
 
 source
 source/test
+source/game_logic
+source/controllers

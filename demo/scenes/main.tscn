@@ -8,3 +8,5 @@ position = Vector2(490, 319)
 [node name="Sprite2D" type="MoveAround" parent="."]
 position = Vector2(0.410312, 18.2063)
 texture = ExtResource("2")
+
+[node name="Block" type="Block" parent="Sprite2D"]
