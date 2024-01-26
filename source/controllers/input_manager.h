@@ -19,7 +19,7 @@ public:
 	void _input(const godot::Ref<godot::InputEvent> &event) override;
 
 private:
-	const GameManager* gameManager = nullptr;
+	GameManager* gameManager = nullptr;
 };
 
 }

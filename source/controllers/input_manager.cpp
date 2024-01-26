@@ -25,15 +25,21 @@ void InputManager::_ready()
 	}
 
 	gameManager =  godot::Node::get_node<GameManager>(godot::NodePath("GameManager"));
-	godot::UtilityFunctions::print("manager acquired");
 }
 
 void InputManager::_input(const godot::Ref<godot::InputEvent>& event)
 {
-	if(event->is_action_pressed("left"))
+	if(event->is_action_pressed("right"))
 	{
-		godot::UtilityFunctions::print("moved left on event");
-		gameManager->GetActiveBlock()->translate(godot::Vector2(1, 0));
+		gameManager->MoveBlockRight();
+	}
+	else if(event->is_action_pressed("left"))
+	{
+		gameManager->MoveBlockLeft();
+	}
+	else if(event->is_action_pressed("rotate"))
+	{
+		gameManager->RotateBlock();
 	}
 }
 

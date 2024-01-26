@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1tb5kx77w5qh"]
 
-[ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_jgbwd"]
+[ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_6lpw5"]
 
 [node name="InputManager" type="InputManager"]
 
 [node name="GameManager" type="GameManager" parent="."]
-speed = ExtResource("1_jgbwd")
+BlockScene = ExtResource("1_6lpw5")

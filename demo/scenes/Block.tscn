@@ -1,8 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bu2fg2o50j4tv"]
 
-[ext_resource type="Texture2D" uid="uid://cxc5bg2bdqelw" path="res://icon.png" id="1_2s1ro"]
+[ext_resource type="PackedScene" uid="uid://3s2ab6x1dmso" path="res://scenes/Node.tscn" id="1_8eeod"]
 
 [node name="Block" type="Block"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_2s1ro")
+NodeScene = ExtResource("1_8eeod")
