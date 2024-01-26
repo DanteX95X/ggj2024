@@ -1,14 +1,14 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/node2d.hpp>
 
 namespace ggj
 {
 
-class Block : public godot::Node
+class Block : public godot::Node2D
 {
-	GDCLASS(Block, godot::Node)
+	GDCLASS(Block, godot::Node2D)
 	static void _bind_methods();
 
 public:

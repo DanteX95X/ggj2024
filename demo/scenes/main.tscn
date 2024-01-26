@@ -1,12 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1tb5kx77w5qh"]
 
-[ext_resource type="Texture2D" uid="uid://cxc5bg2bdqelw" path="res://icon.png" id="2"]
+[ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_jgbwd"]
 
-[node name="Main" type="Hello"]
-position = Vector2(490, 319)
+[node name="InputManager" type="InputManager"]
 
-[node name="Sprite2D" type="MoveAround" parent="."]
-position = Vector2(0.410312, 18.2063)
-texture = ExtResource("2")
-
-[node name="Block" type="Block" parent="Sprite2D"]
+[node name="GameManager" type="GameManager" parent="."]
+speed = ExtResource("1_jgbwd")
