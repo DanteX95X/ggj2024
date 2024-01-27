@@ -34,6 +34,8 @@ public:
 	void TransferEnergy();
 	void PushJar();
 
+	void GameOver();
+
 	int CountBlockDependencies(int blockIndex, const std::set<int> visited) const;
 
 	void ResetPhysics();

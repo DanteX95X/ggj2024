@@ -210,6 +210,10 @@ void GameManager::PushJar()
 	}
 }
 
+void GameManager::GameOver()
+{
+}
+
 int GameManager::CountBlockDependencies(int blockIndex, const std::set<int> visited) const
 {
 	int unresolvedDependencies = 0;
