@@ -33,6 +33,13 @@ void GameManager::_ready()
 //		grid.push_back(std::vector<int>(GRID_WIDTH, -1));
 //	}
 
+	//Spawn jar blocks
+	for(int x = 0; x < GRID_WIDTH; ++x)
+	{
+		SpawnBlockAt(godot::Vector2i{x, GRID_HEIGHT - 1}, {godot::Vector2i{0,0}});
+		BakeBlockOnTheGrid();
+	}
+
 	SpawnNextBlock();
 }
 
@@ -51,7 +58,7 @@ void GameManager::SpawnNextBlock()
 	//TODO: handle game over condition
 	//TODO: randomize shapes
 	SpawnBlockAt(godot::Vector2i{5, 0}, SHAPES.back());
-	SnapBlockToGrid();
+	SnapBlockToGrid(); //TODO: Handle collisions on spawn
 }
 
 void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)

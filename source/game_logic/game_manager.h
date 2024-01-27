@@ -63,7 +63,7 @@ private:
 	std::vector<Block*> blocks{};
 
 	const int GRID_WIDTH = 10;
-	const int GRID_HEIGHT = 7;
+	const int GRID_HEIGHT = 8;
 
 	const std::vector<std::vector<godot::Vector2i>> SHAPES =
 	{
