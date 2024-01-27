@@ -205,6 +205,7 @@ void GameManager::PushJar()
 	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
 	{
 		godot::UtilityFunctions::print("jar pushed, energy: ", totalJarEnergy);
+		MoveJarDown();
 		//TODO: Handle jar pushing
 	}
 }
@@ -273,6 +274,22 @@ void GameManager::BakeBlockOnTheGrid(BaseBlock* block)
 			}
 		}
 		godot::UtilityFunctions::print(serializedRow);
+	}
+}
+
+void GameManager::MoveJarDown()
+{
+	for(int y = GRID_HEIGHT - 1; y > 0; --y)
+	{
+		grid[y] = grid[y -1];
+	}
+	grid[0] = std::vector<int>(GRID_WIDTH, -1);
+
+	for(auto& block : blocks)
+	{
+		godot::Vector2i displacement{0, 1};
+		block->SetPosition(block->GetPosition() + displacement);
+		block->translate(displacement * NODE_SIZE);
 	}
 }
 
