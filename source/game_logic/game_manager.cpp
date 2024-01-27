@@ -81,22 +81,43 @@ void GameManager::ProcessBlockFall()
 		accumulatedDistance -= 1;
 		activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
 		blockGridPosition += godot::Vector2i{0, 1};
+		CheckBlockCollision();
+	}
+}
+
+void GameManager::CheckBlockCollision()
+{
+	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
+	if(spanOnGrid.bottom >= GRID_HEIGHT - 1)
+	{
 		HandleBlockCollision();
+	}
+	else
+	{
+		std::vector<int> hitBlocks{};
+		for(const auto& position : activeBlock->GetShape())
+		{
+			godot::Vector2i nodeGridPosition = position + blockGridPosition;
+			godot::Vector2i belowNode = nodeGridPosition + godot::Vector2i{0, 1};
+			int hitBlockIndex = grid[belowNode.y][belowNode.x];
+			if(hitBlockIndex > -1)
+			{
+				hitBlocks.push_back(hitBlockIndex);
+			}
+		}
+
+		if(hitBlocks.size() > 0)
+		{
+			HandleBlockCollision();
+		}
 	}
 }
 
 void GameManager::HandleBlockCollision()
 {
-	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
-	if(spanOnGrid.bottom >= GRID_HEIGHT - 1)
-	{
-		BakeBlockOnTheGrid();
-
-		activeBlock = nullptr;
-		accumulatedDistance = 0;
-		//TODO: energy transfer calculations
-		SpawnNextBlock();
-	}
+	BakeBlockOnTheGrid();
+	//TODO: energy transfer calculations
+	SpawnNextBlock();
 }
 
 void GameManager::ResetPhysics()
@@ -121,7 +142,14 @@ void GameManager::BakeBlockOnTheGrid()
 		for(const auto& cell : row)
 		{
 			serializedRow += " ";
-			serializedRow += std::to_string(cell).c_str();
+			if(cell != -1)
+			{
+				serializedRow += std::to_string(cell).c_str();
+			}
+			else
+			{
+				serializedRow += "X";
+			}
 		}
 		godot::UtilityFunctions::print(serializedRow);
 	}

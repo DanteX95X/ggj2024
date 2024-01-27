@@ -26,6 +26,7 @@ public:
 	void SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
 	void CalculateBlockMotion(double delta);
 	void ProcessBlockFall();
+	void CheckBlockCollision();
 	void HandleBlockCollision();
 
 	void ResetPhysics();
