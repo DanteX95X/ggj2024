@@ -65,6 +65,7 @@ void GameManager::SpawnNextBlock()
 	if(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0)
 	{
 		//TODO: Handle this game over condition. Cannotspawn.
+		godot::UtilityFunctions::print("GAME OVER: BLOCKED");
 		activeBlock->queue_free();
 		activeBlock = nullptr;
 	}
@@ -206,7 +207,6 @@ void GameManager::PushJar()
 	{
 		godot::UtilityFunctions::print("jar pushed, energy: ", totalJarEnergy);
 		MoveJarDown();
-		//TODO: Handle jar pushing
 	}
 }
 
@@ -290,6 +290,11 @@ void GameManager::MoveJarDown()
 		godot::Vector2i displacement{0, 1};
 		block->SetPosition(block->GetPosition() + displacement);
 		block->translate(displacement * NODE_SIZE);
+	}
+
+	if(jarBlocks.front()->GetPosition().y == GRID_HEIGHT -1)
+	{
+		godot::UtilityFunctions::print("GAME WON: JAR PUSHED OUT");
 	}
 }
 
