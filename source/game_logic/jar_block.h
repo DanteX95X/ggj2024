@@ -16,6 +16,13 @@ public:
 	JarBlock();
 
 	void ReceiveEnergy(float energy) override;
+
+	float ProcessEnergy();
+
+private:
+	const float ENERGY_THRESHOLD{6};
+	bool isShattered{false};
+	float totalEnergy{};
 };
 
 }

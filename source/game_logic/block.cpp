@@ -24,7 +24,7 @@ void Block::_ready()
 
 void Block::ReceiveEnergy(float energy)
 {
-
+	godot::UtilityFunctions::print("Block: ", blockIndex, ", energy: ", energy);
 }
 
 void Block::InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i position, int blockIndex, float step)

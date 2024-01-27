@@ -37,8 +37,9 @@ void GameManager::_ready()
 	//Spawn jar blocks
 	for(int x = 0; x < GRID_WIDTH; ++x)
 	{
-		BaseBlock* jarBlock = SpawnBlockAt(jarBlockScene, godot::Vector2i{x, GRID_HEIGHT - 1}, {godot::Vector2i{0,0}});
+		JarBlock* jarBlock = static_cast<JarBlock*>(SpawnBlockAt(jarBlockScene, godot::Vector2i{x, GRID_HEIGHT - 1}, {godot::Vector2i{0,0}}));
 		BakeBlockOnTheGrid(jarBlock);
+		jarBlocks.push_back(jarBlock);
 	}
 
 	SpawnNextBlock();
@@ -66,15 +67,6 @@ void GameManager::SpawnNextBlock()
 		activeBlock = nullptr;
 	}
 }
-
-//BaseBlock* GameManager::SpawnFallingBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
-//{
-////	activeBlockIndex = blocks.size();
-//	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, gridPosition, shape));
-//	activeBlock->InitializeBlock(shape, gridPosition, blocks.size() - 1, NODE_SIZE);
-////	blockGridPosition = gridPosition;
-//	return activeBlock;
-//}
 
 BaseBlock* GameManager::SpawnBlockAt(godot::Ref<godot::PackedScene> scene, godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
 {
@@ -161,40 +153,49 @@ void GameManager::CheckBlockCollision()
 void GameManager::HandleBlockCollision()
 {
 	BakeBlockOnTheGrid(activeBlock);
-	//TODO: energy transfer calculations
 	TransferEnergy();
+
+	float totalJarEnergy = 0;
+	for(const auto& jarBlock : jarBlocks)
+	{
+		totalJarEnergy += jarBlock->ProcessEnergy();
+	}
+
 	SpawnNextBlock();
 }
 
 void GameManager::TransferEnergy()
 {
-	std::vector<int> frontier{activeBlock->GetIndex()};
+	//TODO: PRoper energy calculation
+	std::vector<std::pair<int, float>> frontier{{activeBlock->GetIndex(), 10.0f}};
 	std::set<int> visited{};
 
 	while(!frontier.empty())
 	{
 		std::sort(frontier.begin(), frontier.end(),
-		          [&visited, incoming = &incomingEdges, this](const int& first, const int& second)
+		          [&visited, incoming = &incomingEdges, this](const auto& first, const auto& second)
 		{
-			int firstUnresolvedDependencies = CountBlockDependencies(first, visited);
-			int secondUnresolvedDependencies = CountBlockDependencies(second, visited);
+			int firstUnresolvedDependencies = CountBlockDependencies(first.first, visited);
+			int secondUnresolvedDependencies = CountBlockDependencies(second.first, visited);
 			return firstUnresolvedDependencies > secondUnresolvedDependencies;
 		});
 
-		int currentNodeIndex = frontier.back();
+		auto [currentBlockIndex, energy] = frontier.back();
 		frontier.pop_back();
 
-		if(visited.find(currentNodeIndex) != visited.end())
-		{
-			continue;
-		}
-		visited.insert(currentNodeIndex);
+		visited.insert(currentBlockIndex);
 
+		blocks[currentBlockIndex]->ReceiveEnergy(energy);
+		const auto& outgoing = outgoingEdges[currentBlockIndex];
+		energy /= outgoing.size();
 		//TODO: pass energy
-		godot::UtilityFunctions::print("frontier top: ", currentNodeIndex);
+		godot::UtilityFunctions::print("frontier top: ", currentBlockIndex);
 
-		const auto& outgoing = outgoingEdges[currentNodeIndex];
-		frontier.insert(frontier.end(), outgoing.begin(), outgoing.end());
+		for(const auto& neighbourIndex : outgoing)
+		{
+			frontier.push_back({neighbourIndex, energy});
+		}
+//		frontier.insert(frontier.end(), outgoing.begin(), outgoing.end());
 	}
 }
 

@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include "block.h"
+#include "jar_block.h"
 
 namespace ggj
 {
@@ -24,7 +25,6 @@ public:
 	void _physics_process(double delta) override;
 
 	void SpawnNextBlock();
-//	BaseBlock* SpawnFallingBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
 	BaseBlock* SpawnBlockAt(godot::Ref<godot::PackedScene> scene, godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
 	void CalculateBlockMotion(double delta);
 	void ProcessBlockFall();
@@ -52,8 +52,6 @@ public:
 
 private:
 	Block* activeBlock = nullptr;
-//	int activeBlockIndex{};
-//	godot::Vector2i blockGridPosition{0, 0};
 	float previousVelocity = 0;
 	float accumulatedDistance = 0;
 
@@ -68,6 +66,7 @@ private:
 
 	std::vector<std::vector<int>> grid{};
 	std::vector<BaseBlock*> blocks{};
+	std::vector<JarBlock*> jarBlocks{};
 
 	std::map<int, std::vector<int>> incomingEdges{};
 	std::map<int, std::vector<int>> outgoingEdges{};
