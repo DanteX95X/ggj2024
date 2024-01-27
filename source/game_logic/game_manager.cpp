@@ -68,6 +68,7 @@ void GameManager::SpawnNextBlock()
 		godot::UtilityFunctions::print("GAME OVER: BLOCKED");
 		activeBlock->queue_free();
 		activeBlock = nullptr;
+		GameOver();
 	}
 }
 
@@ -198,9 +199,20 @@ void GameManager::TransferEnergy()
 void GameManager::PushJar()
 {
 	float totalJarEnergy = 0;
+	int shatteredJarBlocks = 0;
 	for(const auto& jarBlock : jarBlocks)
 	{
 		totalJarEnergy += jarBlock->ProcessEnergy();
+		if(jarBlock->GetIsShattered())
+		{
+			++shatteredJarBlocks;
+		}
+	}
+
+	if(shatteredJarBlocks >= JAR_SHATTER_THRESHOLD)
+	{
+		godot::UtilityFunctions::print("GAME OVER: Jar shattered");
+		GameOver();
 	}
 
 	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
@@ -212,6 +224,7 @@ void GameManager::PushJar()
 
 void GameManager::GameOver()
 {
+	queue_free();
 }
 
 int GameManager::CountBlockDependencies(int blockIndex, const std::set<int> visited) const
@@ -299,6 +312,7 @@ void GameManager::MoveJarDown()
 	if(jarBlocks.front()->GetPosition().y == GRID_HEIGHT -1)
 	{
 		godot::UtilityFunctions::print("GAME WON: JAR PUSHED OUT");
+		GameOver();
 	}
 }
 

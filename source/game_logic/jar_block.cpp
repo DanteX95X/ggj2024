@@ -40,4 +40,9 @@ float JarBlock::ProcessEnergy()
 	return receivedEnergy;
 }
 
+bool JarBlock::GetIsShattered() const
+{
+	return isShattered;
+}
+
 }

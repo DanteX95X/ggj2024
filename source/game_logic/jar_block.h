@@ -19,6 +19,8 @@ public:
 
 	float ProcessEnergy();
 
+	bool GetIsShattered() const;
+
 private:
 	const float ENERGY_THRESHOLD{6};
 	bool isShattered{false};

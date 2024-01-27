@@ -70,6 +70,7 @@ private:
 	const float ACCELERATION = 0.5f;
 	const float JAR_ENERGY_THRESHOLD = 5.0f;
 	const int INITIAL_JAR_DEPTH = 7;
+	const int JAR_SHATTER_THRESHOLD =3;
 
 	std::vector<std::vector<int>> grid{};
 	std::vector<BaseBlock*> blocks{};
