@@ -53,7 +53,13 @@ void GameManager::SpawnNextBlock()
 	//TODO: handle game over condition
 	//TODO: randomize shapes
 	SpawnBlockAt(godot::Vector2i{5, 0}, SHAPES.back());
-	SnapBlockToGrid(); //TODO: Handle collisions on spawn
+	if(GetAllCollidersInDirection(godot::Vector2i{0,0}, true).size() > 0)
+	{
+		//TODO: Handle this game over condition. Cannotspawn.
+		activeBlock->queue_free();
+		activeBlock = nullptr;
+	}
+//	SnapBlockToGrid(); //TODO: Handle collisions on spawn
 }
 
 void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
