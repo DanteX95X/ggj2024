@@ -59,9 +59,9 @@ void GameManager::_physics_process(double delta)
 void GameManager::SpawnNextBlock()
 {
 	ResetPhysics();
-	//TODO: handle game over condition
-	//TODO: randomize shapes
-	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, SPAWN_POINT, SHAPES.back()));
+
+	std::uniform_int_distribution<uint> rng{0, static_cast<uint>(SHAPES.size()) - 1};
+	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, SPAWN_POINT, SHAPES[rng(twister)]));
 	if(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0)
 	{
 		//TODO: Handle this game over condition. Cannotspawn.

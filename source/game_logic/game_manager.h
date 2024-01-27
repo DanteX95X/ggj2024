@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <map>
+#include <random>
 #include "block.h"
 #include "jar_block.h"
 
@@ -86,11 +87,17 @@ private:
 	const int GRID_HEIGHT = 25;
 	const godot::Vector2i SPAWN_POINT{5, 5};
 
+	std::mt19937 twister {std::random_device{}()};
+
 	const std::vector<std::vector<godot::Vector2i>> SHAPES =
 	{
 	    {{0, 0}, {1, 0}, {-1, 0}, {0, 1} },
 	    {{0, 0}, {-1, 0}, {0, 1}, {0, 2} },
-	    {{0, 0}, {0, 1}, {0, -1}, {0, 2} }
+	    {{0, 0}, {0, 1}, {0, -1}, {0, 2} },
+	    {{0, 0}, {1, 0}, {0, 1}, {0, 2} },
+	    {{0, 0}, {1, 0}, {0, 1}, {1, 1} },
+	    {{0, 0}, {1, 0}, {0, 1}, {-1, 1} },
+	    {{0, 0}, {-1, 0}, {0, 1}, {1, 1} },
 	};
 };
 
