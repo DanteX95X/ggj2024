@@ -27,7 +27,7 @@ void GameManager::_ready()
 
 	activeBlock = static_cast<Block*>(blockScene->instantiate());
 	activeBlock->set_position(godot::Vector2{LEFT_BOUNDS, 100});
-	activeBlock->SetShape(SHAPES.front(), NODE_SIZE);
+	activeBlock->SetShape(SHAPES.back(), NODE_SIZE);
 	add_child(activeBlock);
 }
 
