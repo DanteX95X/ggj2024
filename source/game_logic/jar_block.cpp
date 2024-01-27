@@ -33,6 +33,7 @@ float JarBlock::ProcessEnergy()
 	{
 		godot::UtilityFunctions::print("JarBlock: ", blockIndex, " destroyed");
 		isShattered = true;
+		get_child(0)->queue_free(); //Temporary mark of shattering
 	}
 
 	float receivedEnergy = totalEnergy;
