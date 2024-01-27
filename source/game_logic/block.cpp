@@ -47,8 +47,7 @@ void Block::Rotate(float step)
 		position = rotated;
 
 		auto node = nodes[index];
-		node->set_position(get_position() + position * step);
-		godot::UtilityFunctions::print(position);
+		node->set_position(position * step);
 	}
 }
 
