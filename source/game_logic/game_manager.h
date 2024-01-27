@@ -22,10 +22,13 @@ public:
 	void _ready() override;
 	void _physics_process(double delta) override;
 
+	void SpawnNextBlock();
 	void SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
 	void CalculateBlockMotion(double delta);
 	void ProcessBlockFall();
 	void HandleBlockCollision();
+
+	void ResetPhysics();
 
 	void MoveBlockLeft();
 	void MoveBlockRight();

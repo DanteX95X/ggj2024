@@ -26,8 +26,7 @@ void GameManager::_ready()
 		return;
 	}
 
-	SpawnBlockAt(godot::Vector2i{1, 0}, SHAPES.back());
-	SnapBlockToGrid();
+	SpawnNextBlock();
 }
 
 void GameManager::_physics_process(double delta)
@@ -37,6 +36,15 @@ void GameManager::_physics_process(double delta)
 		CalculateBlockMotion(delta);
 		ProcessBlockFall();
 	}
+}
+
+void GameManager::SpawnNextBlock()
+{
+	ResetPhysics();
+	//TODO: handle game over condition
+	//TODO: randomize shapes
+	SpawnBlockAt(godot::Vector2i{5, 0}, SHAPES.back());
+	SnapBlockToGrid();
 }
 
 void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
@@ -75,7 +83,15 @@ void GameManager::HandleBlockCollision()
 	{
 		activeBlock = nullptr;
 		accumulatedDistance = 0;
+		//TODO: energy transfer calculations
+		SpawnNextBlock();
 	}
+}
+
+void GameManager::ResetPhysics()
+{
+	previousVelocity = 0;
+	accumulatedDistance = 0;
 }
 
 void GameManager::MoveBlockLeft()
