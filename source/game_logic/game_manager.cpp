@@ -4,6 +4,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #include <set>
+#include <algorithm>
 
 namespace ggj
 {
@@ -144,7 +145,56 @@ void GameManager::HandleBlockCollision()
 {
 	BakeBlockOnTheGrid();
 	//TODO: energy transfer calculations
+	TransferEnergy();
 	SpawnNextBlock();
+}
+
+void GameManager::TransferEnergy()
+{
+	std::vector<int> frontier{activeBlockIndex};
+	std::set<int> visited{};
+
+	while(!frontier.empty())
+	{
+		std::sort(frontier.begin(), frontier.end(),
+		          [&visited, incoming = &incomingEdges, this](const int& first, const int& second)
+		{
+			int firstUnresolvedDependencies = CountBlockDependencies(first, visited);
+			int secondUnresolvedDependencies = CountBlockDependencies(second, visited);
+			return firstUnresolvedDependencies > secondUnresolvedDependencies;
+		});
+
+		int currentNodeIndex = frontier.back();
+		frontier.pop_back();
+
+		if(visited.find(currentNodeIndex) != visited.end())
+		{
+			continue;
+		}
+		visited.insert(currentNodeIndex);
+
+		//TODO: pass energy
+		godot::UtilityFunctions::print("frontier top: ", currentNodeIndex);
+
+		const auto& outgoing = outgoingEdges[currentNodeIndex];
+		frontier.insert(frontier.end(), outgoing.begin(), outgoing.end());
+	}
+}
+
+int GameManager::CountBlockDependencies(int blockIndex, const std::set<int> visited) const
+{
+	int unresolvedDependencies = 0;
+	const auto& firstIncoming = incomingEdges.at(blockIndex);
+	std::for_each(firstIncoming.begin(), firstIncoming.end(),
+	              [&visited, &unresolvedDependencies](int blockIndex)
+	{
+		if(visited.find(blockIndex) == visited.end())
+		{
+			++unresolvedDependencies;
+		}
+	});
+
+	return unresolvedDependencies;
 }
 
 void GameManager::ResetPhysics()

@@ -30,6 +30,9 @@ public:
 	std::vector<int> GetAllCollidersInDirection(godot::Vector2i direction, bool collideWithBounds = false);
 	void CheckBlockCollision();
 	void HandleBlockCollision();
+	void TransferEnergy();
+
+	int CountBlockDependencies(int blockIndex, const std::set<int> visited) const;
 
 	void ResetPhysics();
 	void BakeBlockOnTheGrid();
