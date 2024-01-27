@@ -78,6 +78,7 @@ void GameManager::ProcessBlockFall()
 {
 	if(accumulatedDistance > 1)
 	{
+		CheckBlockCollision(); //TODO: Consider not duplicating collisions.
 		accumulatedDistance -= 1;
 		activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
 		blockGridPosition += godot::Vector2i{0, 1};
@@ -99,6 +100,12 @@ void GameManager::CheckBlockCollision()
 		{
 			godot::Vector2i nodeGridPosition = position + blockGridPosition;
 			godot::Vector2i belowNode = nodeGridPosition + godot::Vector2i{0, 1};
+
+			if(belowNode.y < 0)
+			{
+				continue; // hack for segfault when rotating block at the top
+			}
+
 			int hitBlockIndex = grid[belowNode.y][belowNode.x];
 			if(hitBlockIndex > -1)
 			{
