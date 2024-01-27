@@ -89,9 +89,13 @@ void GameManager::ProcessBlockFall()
 	{
 		CheckBlockCollision(); //TODO: Consider not duplicating collisions.
 		accumulatedDistance -= 1;
-		activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
-		blockGridPosition += godot::Vector2i{0, 1};
-		CheckBlockCollision();
+
+		if(activeBlock != nullptr)
+		{
+			activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
+			blockGridPosition += godot::Vector2i{0, 1};
+			CheckBlockCollision();
+		}
 	}
 }
 
