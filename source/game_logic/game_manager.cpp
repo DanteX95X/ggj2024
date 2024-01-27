@@ -34,24 +34,8 @@ void GameManager::_physics_process(double delta)
 {
 	if(activeBlock != nullptr)
 	{
-		auto velocity = previousVelocity + ACCELERATION * delta;
-		auto displacement = velocity * delta;
-		accumulatedDistance += displacement;
-		previousVelocity = velocity;
-
-		if(accumulatedDistance > 1)
-		{
-			accumulatedDistance -= 1;
-			activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
-			blockGridPosition += godot::Vector2i{0, 1};
-			BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
-
-			if(spanOnGrid.bottom >= GRID_HEIGHT - 1)
-			{
-				activeBlock = nullptr;
-				accumulatedDistance = 0;
-			}
-		}
+		CalculateBlockMotion(delta);
+		ProcessBlockFall();
 	}
 }
 
@@ -63,6 +47,35 @@ void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::
 	activeBlock->SetShape(shape, NODE_SIZE);
 	add_child(activeBlock);
 	blockGridPosition = gridPosition;
+}
+
+void GameManager::CalculateBlockMotion(double delta)
+{
+	auto velocity = previousVelocity + ACCELERATION * delta;
+	auto displacement = velocity * delta;
+	accumulatedDistance += displacement;
+	previousVelocity = velocity;
+}
+
+void GameManager::ProcessBlockFall()
+{
+	if(accumulatedDistance > 1)
+	{
+		accumulatedDistance -= 1;
+		activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
+		blockGridPosition += godot::Vector2i{0, 1};
+		HandleBlockCollision();
+	}
+}
+
+void GameManager::HandleBlockCollision()
+{
+	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
+	if(spanOnGrid.bottom >= GRID_HEIGHT - 1)
+	{
+		activeBlock = nullptr;
+		accumulatedDistance = 0;
+	}
 }
 
 void GameManager::MoveBlockLeft()
