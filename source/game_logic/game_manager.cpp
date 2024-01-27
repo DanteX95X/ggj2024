@@ -184,21 +184,21 @@ void GameManager::BakeBlockOnTheGrid()
 
 void GameManager::MoveBlockLeft()
 {
-	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{-1, 0}).size() == 0)
+	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{-1, 0}, true).size() == 0)
 	{
 		activeBlock->translate(godot::Vector2{-NODE_SIZE, 0});
 		blockGridPosition.x -= 1;
-		SnapBlockToGrid();
+//		SnapBlockToGrid();
 	}
 }
 
 void GameManager::MoveBlockRight()
 {
-	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{1, 0}).size() == 0)
+	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{1, 0}, true).size() == 0)
 	{
 		activeBlock->translate(godot::Vector2{NODE_SIZE, 0});
 		blockGridPosition.x += 1;
-		SnapBlockToGrid();
+//		SnapBlockToGrid();
 	}
 }
 
@@ -213,24 +213,6 @@ void GameManager::RotateBlock()
 			activeBlock->Rotate(NODE_SIZE);
 		}
 		while(GetAllCollidersInDirection(godot::Vector2i{0,0}, true).size() > 0 && counter <= 4);
-	}
-}
-
-void GameManager::SnapBlockToGrid()
-{
-	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
-
-	if(spanOnGrid.left < 0)
-	{
-		blockGridPosition.x -= spanOnGrid.left;
-		const auto& position = activeBlock->get_position();
-		activeBlock->translate(godot::Vector2{-spanOnGrid.left * NODE_SIZE, 0});
-	}
-	else if(spanOnGrid.right >= GRID_WIDTH)
-	{
-		int displacement = spanOnGrid.right - GRID_WIDTH + 1;
-		blockGridPosition.x -= displacement;
-		activeBlock->translate(godot::Vector2{-displacement * NODE_SIZE, 0});
 	}
 }
 

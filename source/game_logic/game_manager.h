@@ -36,7 +36,6 @@ public:
 	void MoveBlockLeft();
 	void MoveBlockRight();
 	void RotateBlock();
-	void SnapBlockToGrid();
 
 	Block* GetActiveBlock() const;
 	BlockSpan GetBlockSpanInGridCoordinates() const;
