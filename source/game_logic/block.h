@@ -9,6 +9,14 @@
 namespace ggj
 {
 
+struct BlockSpan
+{
+	int left{};
+	int right{};
+	int top{};
+	int bottom{};
+};
+
 class Block : public godot::Node2D
 {
 	GDCLASS(Block, godot::Node2D)
@@ -22,13 +30,19 @@ public:
 	void SetShape(std::vector<godot::Vector2> shape, float step);
 	void Rotate(float step);
 
+	void UpdateSpan();
+
 	godot::Ref<godot::PackedScene> GetNodeScene() const;
 	void SetNodeScene(godot::Ref<godot::PackedScene> nodeScene);
+
+	BlockSpan GetSpan() const;
 
 private:
 	godot::Ref<godot::PackedScene> nodeScene{};
 	std::vector<godot::Vector2> shape{};
 	std::vector<Node2D*> nodes{};
+
+	BlockSpan span{};
 };
 
 }

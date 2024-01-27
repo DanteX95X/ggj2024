@@ -37,8 +37,6 @@ void GameManager::_physics_process(double delta)
 	auto velocity = previousVelocity + ACCELERATION * delta;
 	auto displacement = velocity * delta;
 	accumulatedDistance += displacement;
-	godot::UtilityFunctions::print("accumulated distance", accumulatedDistance);
-
 	previousVelocity = velocity;
 
 	if(accumulatedDistance > 1)

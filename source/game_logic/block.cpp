@@ -33,6 +33,8 @@ void Block::SetShape(std::vector<godot::Vector2> shape, float step)
 		node->set_position(position * step);
 		nodes.push_back(node);
 	}
+
+	UpdateSpan();
 }
 
 void Block::Rotate(float step)
@@ -49,6 +51,25 @@ void Block::Rotate(float step)
 		auto node = nodes[index];
 		node->set_position(position * step);
 	}
+
+	UpdateSpan();
+}
+
+void Block::UpdateSpan()
+{
+	BlockSpan span;
+	for(const auto& position : shape)
+	{
+		int positionX = static_cast<int>(godot::Math::round(position.x));
+		int positionY = static_cast<int>(godot::Math::round(position.y));
+		span.left = godot::Math::min(positionX, span.left);
+		span.right = godot::Math::max(positionX, span.right);
+		span.top = godot::Math::min(positionY, span.top);
+		span.bottom = godot::Math::max(positionY, span.bottom);
+	}
+
+	godot::UtilityFunctions::print("l: ", span.left, ", r: ", span.right, ", t: ", span.top, ", b: ", span.bottom);
+	this->span = span;
 }
 
 godot::Ref<godot::PackedScene> Block::GetNodeScene() const
@@ -59,6 +80,11 @@ godot::Ref<godot::PackedScene> Block::GetNodeScene() const
 void Block::SetNodeScene(godot::Ref<godot::PackedScene> nodeScene)
 {
 	this->nodeScene = nodeScene;
+}
+
+BlockSpan Block::GetSpan() const
+{
+	return span;
 }
 
 }

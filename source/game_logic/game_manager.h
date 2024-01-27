@@ -41,8 +41,10 @@ private:
 
 	const float LEFT_BOUNDS = 100.0f;
 	const float NODE_SIZE = 64.0f;
-	const int WIDTH = 10;
 	const float ACCELERATION = 0.5f;
+
+	const int GRID_WIDTH = 10;
+	const int GRID_HEIGHT = 5;
 
 	const std::vector<std::vector<godot::Vector2>> SHAPES =
 	{
