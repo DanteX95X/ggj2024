@@ -41,6 +41,10 @@ void InputManager::_input(const godot::Ref<godot::InputEvent>& event)
 	{
 		gameManager->RotateBlock();
 	}
+	else if(event->is_action_pressed("accelerate"))
+	{
+		gameManager->Accelerate();
+	}
 }
 
 }

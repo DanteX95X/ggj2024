@@ -86,7 +86,7 @@ BaseBlock* GameManager::SpawnBlockAt(godot::Ref<godot::PackedScene> scene, godot
 
 void GameManager::CalculateBlockMotion(double delta)
 {
-	auto velocity = previousVelocity + ACCELERATION * delta;
+	auto velocity = previousVelocity + acceleration * delta;
 	auto displacement = velocity * delta;
 	accumulatedDistance += displacement;
 	previousVelocity = velocity;
@@ -247,6 +247,7 @@ void GameManager::ResetPhysics()
 {
 	previousVelocity = 0;
 	accumulatedDistance = 0;
+	acceleration = INITIAL_ACCELERATION;
 }
 
 void GameManager::BakeBlockOnTheGrid(BaseBlock* block)
@@ -348,6 +349,11 @@ void GameManager::RotateBlock()
 		}
 		while(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0 && counter <= 4);
 	}
+}
+
+void GameManager::Accelerate()
+{
+	acceleration += ACCELERATION_INCREMENT;
 }
 
 Block* GameManager::GetActiveBlock() const
