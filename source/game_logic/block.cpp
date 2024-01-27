@@ -87,4 +87,9 @@ BlockSpan Block::GetSpan() const
 	return span;
 }
 
+const std::vector<godot::Vector2i>& Block::GetShape() const
+{
+	return shape;
+}
+
 }

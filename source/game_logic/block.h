@@ -36,6 +36,7 @@ public:
 	void SetNodeScene(godot::Ref<godot::PackedScene> nodeScene);
 
 	BlockSpan GetSpan() const;
+	const std::vector<godot::Vector2i>& GetShape() const;
 
 private:
 	godot::Ref<godot::PackedScene> nodeScene{};

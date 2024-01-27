@@ -26,6 +26,13 @@ void GameManager::_ready()
 		return;
 	}
 
+	grid = std::vector<std::vector<int>>(GRID_HEIGHT, std::vector<int>(GRID_WIDTH, -1));
+//	grid.reserve(GRID_HEIGHT);
+//	for(std::size_t rowIndex; rowIndex < GRID_HEIGHT; ++rowIndex)
+//	{
+//		grid.push_back(std::vector<int>(GRID_WIDTH, -1));
+//	}
+
 	SpawnNextBlock();
 }
 
@@ -49,7 +56,9 @@ void GameManager::SpawnNextBlock()
 
 void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
 {
+	activeBlockIndex = blocks.size();
 	activeBlock = static_cast<Block*>(blockScene->instantiate());
+	blocks.push_back(activeBlock);
 	activeBlock->set_position(godot::Vector2{LEFT_BOUNDS + NODE_SIZE * gridPosition.x,
 	                                         TOP_BOUNDS + NODE_SIZE * gridPosition.y});
 	activeBlock->SetShape(shape, NODE_SIZE);
@@ -81,6 +90,8 @@ void GameManager::HandleBlockCollision()
 	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
 	if(spanOnGrid.bottom >= GRID_HEIGHT - 1)
 	{
+		BakeBlockOnTheGrid();
+
 		activeBlock = nullptr;
 		accumulatedDistance = 0;
 		//TODO: energy transfer calculations
@@ -92,6 +103,28 @@ void GameManager::ResetPhysics()
 {
 	previousVelocity = 0;
 	accumulatedDistance = 0;
+}
+
+void GameManager::BakeBlockOnTheGrid()
+{
+	auto& shape = activeBlock->GetShape();
+	for(const auto& position : shape)
+	{
+		godot::Vector2i gridPosition = position + blockGridPosition;
+		grid[gridPosition.y][gridPosition.x] = activeBlockIndex;
+	}
+
+	godot::UtilityFunctions::print("Grid: ");
+	for(const auto& row : grid)
+	{
+		godot::String serializedRow = "";
+		for(const auto& cell : row)
+		{
+			serializedRow += " ";
+			serializedRow += std::to_string(cell).c_str();
+		}
+		godot::UtilityFunctions::print(serializedRow);
+	}
 }
 
 void GameManager::MoveBlockLeft()
