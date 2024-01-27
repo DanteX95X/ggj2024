@@ -37,7 +37,9 @@ void GameManager::_ready()
 	//Spawn jar blocks
 	for(int x = 0; x < GRID_WIDTH; ++x)
 	{
-		JarBlock* jarBlock = static_cast<JarBlock*>(SpawnBlockAt(jarBlockScene, godot::Vector2i{x, GRID_HEIGHT - 1}, {godot::Vector2i{0,0}}));
+		JarBlock* jarBlock = static_cast<JarBlock*>(SpawnBlockAt(jarBlockScene,
+		                                                         godot::Vector2i{x, GRID_HEIGHT - 1 - INITIAL_JAR_DEPTH},
+		                                                         {godot::Vector2i{0,0}}));
 		BakeBlockOnTheGrid(jarBlock);
 		jarBlocks.push_back(jarBlock);
 	}

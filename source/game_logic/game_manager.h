@@ -65,6 +65,7 @@ private:
 	const float NODE_SIZE = 32.0f;
 	const float ACCELERATION = 0.5f;
 	const float JAR_ENERGY_THRESHOLD = 10.0f;
+	const int INITIAL_JAR_DEPTH = 7;
 
 	std::vector<std::vector<int>> grid{};
 	std::vector<BaseBlock*> blocks{};
