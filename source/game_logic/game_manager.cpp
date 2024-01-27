@@ -157,12 +157,19 @@ void GameManager::BakeBlockOnTheGrid()
 {
 	incomingEdges[activeBlockIndex] = {};
 	outgoingEdges[activeBlockIndex] = {};
-
 	const auto bottomColliders = GetAllCollidersInDirection(godot::Vector2i{0, 1});
 	const auto topColliders = GetAllCollidersInDirection(godot::Vector2i{0, -1});
 
-
-
+	for(const auto& collider : bottomColliders)
+	{
+		outgoingEdges[activeBlockIndex].push_back(collider);
+		incomingEdges[collider].push_back(activeBlockIndex);
+	}
+	for(const auto& collider : topColliders)
+	{
+		incomingEdges[activeBlockIndex].push_back(collider);
+		outgoingEdges[collider].push_back(activeBlockIndex);
+	}
 
 	auto& shape = activeBlock->GetShape();
 	for(const auto& position : shape)
