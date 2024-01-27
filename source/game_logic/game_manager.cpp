@@ -86,6 +86,30 @@ void GameManager::ProcessBlockFall()
 	}
 }
 
+std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i direction)
+{
+	std::vector<int> hitBlocks{};
+	for(const auto& position : activeBlock->GetShape())
+	{
+		godot::Vector2i nodeGridPosition = position + blockGridPosition;
+		godot::Vector2i collidingNode = nodeGridPosition + direction;
+
+		if(collidingNode.y < 0 || collidingNode.x < 0 ||
+		   collidingNode.x >= GRID_WIDTH || collidingNode.y >= GRID_HEIGHT)
+		{
+			continue;
+		}
+
+		int hitBlockIndex = grid[collidingNode.y][collidingNode.x];
+		if(hitBlockIndex > -1)
+		{
+			hitBlocks.push_back(hitBlockIndex);
+		}
+	}
+
+	return hitBlocks;
+}
+
 void GameManager::CheckBlockCollision()
 {
 	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
@@ -95,24 +119,7 @@ void GameManager::CheckBlockCollision()
 	}
 	else
 	{
-		std::vector<int> hitBlocks{};
-		for(const auto& position : activeBlock->GetShape())
-		{
-			godot::Vector2i nodeGridPosition = position + blockGridPosition;
-			godot::Vector2i belowNode = nodeGridPosition + godot::Vector2i{0, 1};
-
-			if(belowNode.y < 0)
-			{
-				continue; // hack for segfault when rotating block at the top
-			}
-
-			int hitBlockIndex = grid[belowNode.y][belowNode.x];
-			if(hitBlockIndex > -1)
-			{
-				hitBlocks.push_back(hitBlockIndex);
-			}
-		}
-
+		std::vector<int> hitBlocks = GetAllCollidersInDirection(godot::Vector2i{0, 1});
 		if(hitBlocks.size() > 0)
 		{
 			HandleBlockCollision();
@@ -164,7 +171,7 @@ void GameManager::BakeBlockOnTheGrid()
 
 void GameManager::MoveBlockLeft()
 {
-	if(activeBlock != nullptr)
+	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{-1, 0}).size() == 0)
 	{
 		activeBlock->translate(godot::Vector2{-NODE_SIZE, 0});
 		blockGridPosition.x -= 1;
@@ -174,7 +181,7 @@ void GameManager::MoveBlockLeft()
 
 void GameManager::MoveBlockRight()
 {
-	if(activeBlock != nullptr)
+	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{1, 0}).size() == 0)
 	{
 		activeBlock->translate(godot::Vector2{NODE_SIZE, 0});
 		blockGridPosition.x += 1;
