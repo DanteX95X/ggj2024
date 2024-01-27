@@ -30,6 +30,7 @@ public:
 	void SnapBlockToGrid();
 
 	Block* GetActiveBlock() const;
+	BlockSpan GetBlockSpanInGridCoordinates() const;
 
 	godot::Ref<godot::PackedScene> GetBlockScene() const;
 	void SetBlockScene(godot::Ref<godot::PackedScene> blockScene);
@@ -49,7 +50,7 @@ private:
 	const float ACCELERATION = 0.5f;
 
 	const int GRID_WIDTH = 10;
-	const int GRID_HEIGHT = 5;
+	const int GRID_HEIGHT = 7;
 
 	const std::vector<std::vector<godot::Vector2i>> SHAPES =
 	{

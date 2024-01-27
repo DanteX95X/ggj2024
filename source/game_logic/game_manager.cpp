@@ -40,8 +40,8 @@ void GameManager::_physics_process(double delta)
 	if(accumulatedDistance > 1)
 	{
 		accumulatedDistance -= 1;
-//		activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
-//		blockGridPosition += godot::Vector2i{0, 1};
+		activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
+		blockGridPosition += godot::Vector2i{0, 1};
 	}
 }
 
@@ -77,12 +77,7 @@ void GameManager::RotateBlock()
 
 void GameManager::SnapBlockToGrid()
 {
-	BlockSpan span = activeBlock->GetSpan();
-	BlockSpan spanOnGrid{};
-	spanOnGrid.left = blockGridPosition.x + span.left;
-	spanOnGrid.right = blockGridPosition.x + span.right;
-	spanOnGrid.top = blockGridPosition.y + span.top;
-	spanOnGrid.bottom = blockGridPosition.y + span.bottom;
+	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
 
 	if(spanOnGrid.left < 0)
 	{
@@ -101,6 +96,17 @@ void GameManager::SnapBlockToGrid()
 Block* GameManager::GetActiveBlock() const
 {
 	return activeBlock;
+}
+
+BlockSpan GameManager::GetBlockSpanInGridCoordinates() const
+{
+	BlockSpan span = activeBlock->GetSpan();
+	BlockSpan spanOnGrid{};
+	spanOnGrid.left = blockGridPosition.x + span.left;
+	spanOnGrid.right = blockGridPosition.x + span.right;
+	spanOnGrid.top = blockGridPosition.y + span.top;
+	spanOnGrid.bottom = blockGridPosition.y + span.bottom;
+	return spanOnGrid;
 }
 
 godot::Ref<godot::PackedScene> GameManager::GetBlockScene() const
