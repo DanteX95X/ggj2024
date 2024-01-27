@@ -26,8 +26,8 @@ void GameManager::_ready()
 	}
 
 	activeBlock = static_cast<Block*>(blockScene->instantiate());
-	activeBlock->set_position(godot::Vector2(LEFT_BOUNDS, 100));
-	activeBlock->SetShape(SHAPES.front(), STEP);
+	activeBlock->set_position(godot::Vector2{LEFT_BOUNDS, 100});
+	activeBlock->SetShape(SHAPES.front(), NODE_SIZE);
 	add_child(activeBlock);
 }
 
@@ -43,17 +43,17 @@ void GameManager::SetBlockScene(godot::Ref<godot::PackedScene> blockScene)
 
 void GameManager::MoveBlockLeft()
 {
-	activeBlock->translate(godot::Vector2(-STEP, 0));
+	activeBlock->translate(godot::Vector2{-NODE_SIZE, 0});
 }
 
 void GameManager::MoveBlockRight()
 {
-	activeBlock->translate(godot::Vector2(STEP, 0));
+	activeBlock->translate(godot::Vector2{NODE_SIZE, 0});
 }
 
 void GameManager::RotateBlock()
 {
-	activeBlock->Rotate(STEP);
+	activeBlock->Rotate(NODE_SIZE);
 }
 
 Block* GameManager::GetActiveBlock() const

@@ -36,7 +36,7 @@ private:
 	godot::Ref<godot::PackedScene> blockScene;
 
 	const float LEFT_BOUNDS = 100.0f;
-	const float STEP = 64.0f;
+	const float NODE_SIZE = 64.0f;
 	const int WIDTH = 10;
 
 	const std::vector<std::vector<godot::Vector2>> SHAPES =
