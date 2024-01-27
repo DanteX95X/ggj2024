@@ -32,16 +32,26 @@ void GameManager::_ready()
 
 void GameManager::_physics_process(double delta)
 {
-	auto velocity = previousVelocity + ACCELERATION * delta;
-	auto displacement = velocity * delta;
-	accumulatedDistance += displacement;
-	previousVelocity = velocity;
-
-	if(accumulatedDistance > 1)
+	if(activeBlock != nullptr)
 	{
-		accumulatedDistance -= 1;
-		activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
-		blockGridPosition += godot::Vector2i{0, 1};
+		auto velocity = previousVelocity + ACCELERATION * delta;
+		auto displacement = velocity * delta;
+		accumulatedDistance += displacement;
+		previousVelocity = velocity;
+
+		if(accumulatedDistance > 1)
+		{
+			accumulatedDistance -= 1;
+			activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
+			blockGridPosition += godot::Vector2i{0, 1};
+			BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
+
+			if(spanOnGrid.bottom >= GRID_HEIGHT - 1)
+			{
+				activeBlock = nullptr;
+				accumulatedDistance = 0;
+			}
+		}
 	}
 }
 
@@ -57,22 +67,31 @@ void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::
 
 void GameManager::MoveBlockLeft()
 {
-	activeBlock->translate(godot::Vector2{-NODE_SIZE, 0});
-	blockGridPosition.x -= 1;
-	SnapBlockToGrid();
+	if(activeBlock != nullptr)
+	{
+		activeBlock->translate(godot::Vector2{-NODE_SIZE, 0});
+		blockGridPosition.x -= 1;
+		SnapBlockToGrid();
+	}
 }
 
 void GameManager::MoveBlockRight()
 {
-	activeBlock->translate(godot::Vector2{NODE_SIZE, 0});
-	blockGridPosition.x += 1;
-	SnapBlockToGrid();
+	if(activeBlock != nullptr)
+	{
+		activeBlock->translate(godot::Vector2{NODE_SIZE, 0});
+		blockGridPosition.x += 1;
+		SnapBlockToGrid();
+	}
 }
 
 void GameManager::RotateBlock()
 {
-	activeBlock->Rotate(NODE_SIZE);
-	SnapBlockToGrid();
+	if(activeBlock != nullptr)
+	{
+		activeBlock->Rotate(NODE_SIZE);
+		SnapBlockToGrid();
+	}
 }
 
 void GameManager::SnapBlockToGrid()
