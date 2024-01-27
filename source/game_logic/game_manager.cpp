@@ -86,7 +86,7 @@ void GameManager::ProcessBlockFall()
 	}
 }
 
-std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i direction)
+std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i direction, bool collideWithBounds)
 {
 	std::vector<int> hitBlocks{};
 	for(const auto& position : activeBlock->GetShape())
@@ -97,6 +97,11 @@ std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i directi
 		if(collidingNode.y < 0 || collidingNode.x < 0 ||
 		   collidingNode.x >= GRID_WIDTH || collidingNode.y >= GRID_HEIGHT)
 		{
+			if(collideWithBounds)
+			{
+				hitBlocks.push_back(-1);
+			}
+
 			continue;
 		}
 
@@ -193,8 +198,13 @@ void GameManager::RotateBlock()
 {
 	if(activeBlock != nullptr)
 	{
-		activeBlock->Rotate(NODE_SIZE);
-		SnapBlockToGrid();
+		int counter = 0;
+		do
+		{
+			++counter;
+			activeBlock->Rotate(NODE_SIZE);
+		}
+		while(GetAllCollidersInDirection(godot::Vector2i{0,0}, true).size() > 0 && counter <= 4);
 	}
 }
 

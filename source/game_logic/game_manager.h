@@ -26,7 +26,7 @@ public:
 	void SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
 	void CalculateBlockMotion(double delta);
 	void ProcessBlockFall();
-	std::vector<int> GetAllCollidersInDirection(godot::Vector2i direction);
+	std::vector<int> GetAllCollidersInDirection(godot::Vector2i direction, bool collideWithBounds = false);
 	void CheckBlockCollision();
 	void HandleBlockCollision();
 
