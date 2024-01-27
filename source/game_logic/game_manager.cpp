@@ -27,11 +27,6 @@ void GameManager::_ready()
 	}
 
 	grid = std::vector<std::vector<int>>(GRID_HEIGHT, std::vector<int>(GRID_WIDTH, -1));
-//	grid.reserve(GRID_HEIGHT);
-//	for(std::size_t rowIndex; rowIndex < GRID_HEIGHT; ++rowIndex)
-//	{
-//		grid.push_back(std::vector<int>(GRID_WIDTH, -1));
-//	}
 
 	//Spawn jar blocks
 	for(int x = 0; x < GRID_WIDTH; ++x)
