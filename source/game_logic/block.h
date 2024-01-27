@@ -27,7 +27,7 @@ public:
 
 	void _ready() override;
 
-	void SetShape(std::vector<godot::Vector2> shape, float step);
+	void SetShape(std::vector<godot::Vector2i> shape, float step);
 	void Rotate(float step);
 
 	void UpdateSpan();
@@ -39,7 +39,7 @@ public:
 
 private:
 	godot::Ref<godot::PackedScene> nodeScene{};
-	std::vector<godot::Vector2> shape{};
+	std::vector<godot::Vector2i> shape{};
 	std::vector<Node2D*> nodes{};
 
 	BlockSpan span{};

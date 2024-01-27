@@ -46,7 +46,7 @@ private:
 	const int GRID_WIDTH = 10;
 	const int GRID_HEIGHT = 5;
 
-	const std::vector<std::vector<godot::Vector2>> SHAPES =
+	const std::vector<std::vector<godot::Vector2i>> SHAPES =
 	{
 	    {{0, 0}, {1, 0}, {-1, 0}, {0, 1} },
 	    {{0, 0}, {-1, 0}, {0, 1}, {0, 2} }
