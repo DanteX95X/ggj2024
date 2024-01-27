@@ -22,10 +22,16 @@ void Block::_ready()
 {
 }
 
-void Block::SetShape(std::vector<godot::Vector2i> shape, float step)
+void Block::ReceiveEnergy(float energy)
 {
+
+}
+
+void Block::InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i position, int blockIndex, float step)
+{
+	BaseBlock::InitializeBlock(shape, position, blockIndex, step);
+
 	nodes.reserve(4);
-	this->shape = shape;
 	for(const auto& position : shape)
 	{
 		auto node = static_cast<godot::Node2D*>(nodeScene->instantiate());
@@ -85,11 +91,6 @@ void Block::SetNodeScene(godot::Ref<godot::PackedScene> nodeScene)
 BlockSpan Block::GetSpan() const
 {
 	return span;
-}
-
-const std::vector<godot::Vector2i>& Block::GetShape() const
-{
-	return shape;
 }
 
 }

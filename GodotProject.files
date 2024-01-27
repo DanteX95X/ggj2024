@@ -3207,10 +3207,14 @@ source/./hello.h
 source/./hello.cpp
 source/controllers/input_manager.cpp
 source/controllers/input_manager.h
+source/game_logic/base_block.cpp
+source/game_logic/base_block.h
 source/game_logic/block.cpp
 source/game_logic/block.h
 source/game_logic/game_manager.cpp
 source/game_logic/game_manager.h
+source/game_logic/jar_block.cpp
+source/game_logic/jar_block.h
 source/register_types.h
 source/test/move_around.h
 source/test/move_around.cpp

@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1tb5kx77w5qh"]
+[gd_scene load_steps=3 format=3 uid="uid://d1tb5kx77w5qh"]
 
 [ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_6lpw5"]
+[ext_resource type="PackedScene" uid="uid://dtjrgpaniqqfh" path="res://scenes/JarBlock.tscn" id="2_1344d"]
 
 [node name="InputManager" type="InputManager"]
 
 [node name="GameManager" type="GameManager" parent="."]
 BlockScene = ExtResource("1_6lpw5")
+JarBlockScene = ExtResource("2_1344d")

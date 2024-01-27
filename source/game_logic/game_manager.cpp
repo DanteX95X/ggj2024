@@ -14,6 +14,10 @@ void GameManager::_bind_methods()
 	godot::ClassDB::bind_method(godot::D_METHOD("SetBlockScene"), &GameManager::SetBlockScene);
 	godot::ClassDB::bind_method(godot::D_METHOD("GetBlockScene"), &GameManager::GetBlockScene);
 	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "BlockScene"), "SetBlockScene", "GetBlockScene");
+
+	godot::ClassDB::bind_method(godot::D_METHOD("SetJarBlockScene"), &GameManager::SetJarBlockScene);
+	godot::ClassDB::bind_method(godot::D_METHOD("GetJarBlockScene"), &GameManager::GetJarBlockScene);
+	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "JarBlockScene"), "SetJarBlockScene", "GetJarBlockScene");
 }
 
 GameManager::GameManager()
@@ -33,8 +37,8 @@ void GameManager::_ready()
 	//Spawn jar blocks
 	for(int x = 0; x < GRID_WIDTH; ++x)
 	{
-		SpawnBlockAt(godot::Vector2i{x, GRID_HEIGHT - 1}, {godot::Vector2i{0,0}});
-		BakeBlockOnTheGrid();
+		BaseBlock* jarBlock = SpawnBlockAt(jarBlockScene, godot::Vector2i{x, GRID_HEIGHT - 1}, {godot::Vector2i{0,0}});
+		BakeBlockOnTheGrid(jarBlock);
 	}
 
 	SpawnNextBlock();
@@ -54,8 +58,8 @@ void GameManager::SpawnNextBlock()
 	ResetPhysics();
 	//TODO: handle game over condition
 	//TODO: randomize shapes
-	SpawnBlockAt(godot::Vector2i{5, 0}, SHAPES.back());
-	if(GetAllCollidersInDirection(godot::Vector2i{0,0}, true).size() > 0)
+	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, godot::Vector2i{5, 0}, SHAPES.back()));
+	if(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0)
 	{
 		//TODO: Handle this game over condition. Cannotspawn.
 		activeBlock->queue_free();
@@ -63,16 +67,25 @@ void GameManager::SpawnNextBlock()
 	}
 }
 
-void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
+//BaseBlock* GameManager::SpawnFallingBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
+//{
+////	activeBlockIndex = blocks.size();
+//	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, gridPosition, shape));
+//	activeBlock->InitializeBlock(shape, gridPosition, blocks.size() - 1, NODE_SIZE);
+////	blockGridPosition = gridPosition;
+//	return activeBlock;
+//}
+
+BaseBlock* GameManager::SpawnBlockAt(godot::Ref<godot::PackedScene> scene, godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
 {
-	activeBlockIndex = blocks.size();
-	activeBlock = static_cast<Block*>(blockScene->instantiate());
-	blocks.push_back(activeBlock);
-	activeBlock->set_position(godot::Vector2{LEFT_BOUNDS + NODE_SIZE * gridPosition.x,
+	BaseBlock* block = static_cast<BaseBlock*>(scene->instantiate());
+	block->InitializeBlock(shape, gridPosition, blocks.size(), NODE_SIZE);
+	blocks.push_back(block);
+	block->set_position(godot::Vector2{LEFT_BOUNDS + NODE_SIZE * gridPosition.x,
 	                                         TOP_BOUNDS + NODE_SIZE * gridPosition.y});
-	activeBlock->SetShape(shape, NODE_SIZE);
-	add_child(activeBlock);
-	blockGridPosition = gridPosition;
+	add_child(block);
+
+	return block;
 }
 
 void GameManager::CalculateBlockMotion(double delta)
@@ -93,18 +106,18 @@ void GameManager::ProcessBlockFall()
 		if(activeBlock != nullptr)
 		{
 			activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
-			blockGridPosition += godot::Vector2i{0, 1};
+			activeBlock->SetPosition(activeBlock->GetPosition() + godot::Vector2i{0, 1});
 			CheckBlockCollision();
 		}
 	}
 }
 
-std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i direction, bool collideWithBounds)
+std::vector<int> GameManager::GetAllCollidersInDirection(BaseBlock* block, godot::Vector2i direction, bool collideWithBounds)
 {
 	std::set<int> hitBlocks{};
-	for(const auto& position : activeBlock->GetShape())
+	for(const auto& position : block->GetShape())
 	{
-		godot::Vector2i nodeGridPosition = position + blockGridPosition;
+		godot::Vector2i nodeGridPosition = position + block->GetPosition();
 		godot::Vector2i collidingNode = nodeGridPosition + direction;
 
 		if(collidingNode.y < 0 || collidingNode.x < 0 ||
@@ -137,7 +150,7 @@ void GameManager::CheckBlockCollision()
 	}
 	else
 	{
-		std::vector<int> hitBlocks = GetAllCollidersInDirection(godot::Vector2i{0, 1});
+		std::vector<int> hitBlocks = GetAllCollidersInDirection(activeBlock, godot::Vector2i{0, 1});
 		if(hitBlocks.size() > 0)
 		{
 			HandleBlockCollision();
@@ -147,7 +160,7 @@ void GameManager::CheckBlockCollision()
 
 void GameManager::HandleBlockCollision()
 {
-	BakeBlockOnTheGrid();
+	BakeBlockOnTheGrid(activeBlock);
 	//TODO: energy transfer calculations
 	TransferEnergy();
 	SpawnNextBlock();
@@ -155,7 +168,7 @@ void GameManager::HandleBlockCollision()
 
 void GameManager::TransferEnergy()
 {
-	std::vector<int> frontier{activeBlockIndex};
+	std::vector<int> frontier{activeBlock->GetIndex()};
 	std::set<int> visited{};
 
 	while(!frontier.empty())
@@ -207,29 +220,29 @@ void GameManager::ResetPhysics()
 	accumulatedDistance = 0;
 }
 
-void GameManager::BakeBlockOnTheGrid()
+void GameManager::BakeBlockOnTheGrid(BaseBlock* block)
 {
-	incomingEdges[activeBlockIndex] = {};
-	outgoingEdges[activeBlockIndex] = {};
-	const auto bottomColliders = GetAllCollidersInDirection(godot::Vector2i{0, 1});
-	const auto topColliders = GetAllCollidersInDirection(godot::Vector2i{0, -1});
+	incomingEdges[block->GetIndex()] = {};
+	outgoingEdges[block->GetIndex()] = {};
+	const auto bottomColliders = GetAllCollidersInDirection(block, godot::Vector2i{0, 1});
+	const auto topColliders = GetAllCollidersInDirection(block, godot::Vector2i{0, -1});
 
 	for(const auto& collider : bottomColliders)
 	{
-		outgoingEdges[activeBlockIndex].push_back(collider);
-		incomingEdges[collider].push_back(activeBlockIndex);
+		outgoingEdges[block->GetIndex()].push_back(collider);
+		incomingEdges[collider].push_back(block->GetIndex());
 	}
 	for(const auto& collider : topColliders)
 	{
-		incomingEdges[activeBlockIndex].push_back(collider);
-		outgoingEdges[collider].push_back(activeBlockIndex);
+		incomingEdges[block->GetIndex()].push_back(collider);
+		outgoingEdges[collider].push_back(block->GetIndex());
 	}
 
-	auto& shape = activeBlock->GetShape();
+	auto& shape = block->GetShape();
 	for(const auto& position : shape)
 	{
-		godot::Vector2i gridPosition = position + blockGridPosition;
-		grid[gridPosition.y][gridPosition.x] = activeBlockIndex;
+		godot::Vector2i gridPosition = position + block->GetPosition();
+		grid[gridPosition.y][gridPosition.x] = block->GetIndex();
 	}
 
 	godot::UtilityFunctions::print("Grid: ");
@@ -254,19 +267,21 @@ void GameManager::BakeBlockOnTheGrid()
 
 void GameManager::MoveBlockLeft()
 {
-	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{-1, 0}, true).size() == 0)
+	if(activeBlock != nullptr && GetAllCollidersInDirection(activeBlock, godot::Vector2i{-1, 0}, true).size() == 0)
 	{
 		activeBlock->translate(godot::Vector2{-NODE_SIZE, 0});
-		blockGridPosition.x -= 1;
+		const auto& activePosition = activeBlock->GetPosition();
+		activeBlock->SetPosition({activePosition.x - 1, activePosition.y});
 	}
 }
 
 void GameManager::MoveBlockRight()
 {
-	if(activeBlock != nullptr && GetAllCollidersInDirection(godot::Vector2i{1, 0}, true).size() == 0)
+	if(activeBlock != nullptr && GetAllCollidersInDirection(activeBlock, godot::Vector2i{1, 0}, true).size() == 0)
 	{
 		activeBlock->translate(godot::Vector2{NODE_SIZE, 0});
-		blockGridPosition.x += 1;
+		const auto& activePosition = activeBlock->GetPosition();
+		activeBlock->SetPosition({activePosition.x + 1, activePosition.y});
 	}
 }
 
@@ -280,7 +295,7 @@ void GameManager::RotateBlock()
 			++counter;
 			activeBlock->Rotate(NODE_SIZE);
 		}
-		while(GetAllCollidersInDirection(godot::Vector2i{0,0}, true).size() > 0 && counter <= 4);
+		while(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0 && counter <= 4);
 	}
 }
 
@@ -293,6 +308,7 @@ BlockSpan GameManager::GetBlockSpanInGridCoordinates() const
 {
 	BlockSpan span = activeBlock->GetSpan();
 	BlockSpan spanOnGrid{};
+	const auto& blockGridPosition = activeBlock->GetPosition();
 	spanOnGrid.left = blockGridPosition.x + span.left;
 	spanOnGrid.right = blockGridPosition.x + span.right;
 	spanOnGrid.top = blockGridPosition.y + span.top;
@@ -308,6 +324,16 @@ godot::Ref<godot::PackedScene> GameManager::GetBlockScene() const
 void GameManager::SetBlockScene(godot::Ref<godot::PackedScene> blockScene)
 {
 	this->blockScene = blockScene;
+}
+
+godot::Ref<godot::PackedScene> GameManager::GetJarBlockScene() const
+{
+	return jarBlockScene;
+}
+
+void GameManager::SetJarBlockScene(godot::Ref<godot::PackedScene> jarBlockScene)
+{
+	this->jarBlockScene = jarBlockScene;
 }
 
 }

@@ -1,6 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include "base_block.h"
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/packed_scene.hpp>
 
@@ -17,9 +18,9 @@ struct BlockSpan
 	int bottom{};
 };
 
-class Block : public godot::Node2D
+class Block : public BaseBlock
 {
-	GDCLASS(Block, godot::Node2D)
+	GDCLASS(Block, BaseBlock)
 	static void _bind_methods();
 
 public:
@@ -27,7 +28,9 @@ public:
 
 	void _ready() override;
 
-	void SetShape(std::vector<godot::Vector2i> shape, float step);
+	void ReceiveEnergy(float energy) override;
+
+	void InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i position, int blockIndex, float step) override;
 	void Rotate(float step);
 
 	void UpdateSpan();
@@ -36,11 +39,9 @@ public:
 	void SetNodeScene(godot::Ref<godot::PackedScene> nodeScene);
 
 	BlockSpan GetSpan() const;
-	const std::vector<godot::Vector2i>& GetShape() const;
 
 private:
 	godot::Ref<godot::PackedScene> nodeScene{};
-	std::vector<godot::Vector2i> shape{};
 	std::vector<Node2D*> nodes{};
 
 	BlockSpan span{};

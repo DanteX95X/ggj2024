@@ -8,6 +8,7 @@
 #include "hello.h"
 #include "test/move_around.h"
 #include "game_logic/block.h"
+#include "game_logic/jar_block.h"
 #include "game_logic/game_manager.h"
 #include "controllers/input_manager.h"
 
@@ -19,6 +20,7 @@ void initialize_example_module(godot::ModuleInitializationLevel p_level) {
 	godot::ClassDB::register_class<test::Hello>();
 	godot::ClassDB::register_class<test::MoveAround>();
 	godot::ClassDB::register_class<ggj::Block>();
+	godot::ClassDB::register_class<ggj::JarBlock>();
 	godot::ClassDB::register_class<ggj::GameManager>();
 	godot::ClassDB::register_class<ggj::InputManager>();
 }

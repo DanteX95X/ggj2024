@@ -24,10 +24,11 @@ public:
 	void _physics_process(double delta) override;
 
 	void SpawnNextBlock();
-	void SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
+//	BaseBlock* SpawnFallingBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
+	BaseBlock* SpawnBlockAt(godot::Ref<godot::PackedScene> scene, godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape);
 	void CalculateBlockMotion(double delta);
 	void ProcessBlockFall();
-	std::vector<int> GetAllCollidersInDirection(godot::Vector2i direction, bool collideWithBounds = false);
+	std::vector<int> GetAllCollidersInDirection(BaseBlock* block, godot::Vector2i direction, bool collideWithBounds = false);
 	void CheckBlockCollision();
 	void HandleBlockCollision();
 	void TransferEnergy();
@@ -35,7 +36,7 @@ public:
 	int CountBlockDependencies(int blockIndex, const std::set<int> visited) const;
 
 	void ResetPhysics();
-	void BakeBlockOnTheGrid();
+	void BakeBlockOnTheGrid(BaseBlock* block);
 
 	void MoveBlockLeft();
 	void MoveBlockRight();
@@ -46,16 +47,19 @@ public:
 
 	godot::Ref<godot::PackedScene> GetBlockScene() const;
 	void SetBlockScene(godot::Ref<godot::PackedScene> blockScene);
+	godot::Ref<godot::PackedScene> GetJarBlockScene() const;
+	void SetJarBlockScene(godot::Ref<godot::PackedScene> jarBlockScene);
 
 private:
 	Block* activeBlock = nullptr;
-	int activeBlockIndex{};
-	godot::Vector2i blockGridPosition{0, 0};
+//	int activeBlockIndex{};
+//	godot::Vector2i blockGridPosition{0, 0};
 	float previousVelocity = 0;
 	float accumulatedDistance = 0;
 
 
 	godot::Ref<godot::PackedScene> blockScene;
+	godot::Ref<godot::PackedScene> jarBlockScene;
 
 	const float LEFT_BOUNDS = 100.0f;
 	const float TOP_BOUNDS = 40.0f;
@@ -63,7 +67,7 @@ private:
 	const float ACCELERATION = 0.5f;
 
 	std::vector<std::vector<int>> grid{};
-	std::vector<Block*> blocks{};
+	std::vector<BaseBlock*> blocks{};
 
 	std::map<int, std::vector<int>> incomingEdges{};
 	std::map<int, std::vector<int>> outgoingEdges{};
