@@ -3,6 +3,7 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
+#include <set>
 
 namespace ggj
 {
@@ -59,7 +60,6 @@ void GameManager::SpawnNextBlock()
 		activeBlock->queue_free();
 		activeBlock = nullptr;
 	}
-//	SnapBlockToGrid(); //TODO: Handle collisions on spawn
 }
 
 void GameManager::SpawnBlockAt(godot::Vector2i gridPosition, std::vector<godot::Vector2i> shape)
@@ -96,7 +96,7 @@ void GameManager::ProcessBlockFall()
 
 std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i direction, bool collideWithBounds)
 {
-	std::vector<int> hitBlocks{};
+	std::set<int> hitBlocks{};
 	for(const auto& position : activeBlock->GetShape())
 	{
 		godot::Vector2i nodeGridPosition = position + blockGridPosition;
@@ -107,7 +107,7 @@ std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i directi
 		{
 			if(collideWithBounds)
 			{
-				hitBlocks.push_back(-1);
+				hitBlocks.insert(-1);
 			}
 
 			continue;
@@ -116,11 +116,11 @@ std::vector<int> GameManager::GetAllCollidersInDirection(godot::Vector2i directi
 		int hitBlockIndex = grid[collidingNode.y][collidingNode.x];
 		if(hitBlockIndex > -1)
 		{
-			hitBlocks.push_back(hitBlockIndex);
+			hitBlocks.insert(hitBlockIndex);
 		}
 	}
 
-	return hitBlocks;
+	return std::vector<int>(hitBlocks.begin(), hitBlocks.end());
 }
 
 void GameManager::CheckBlockCollision()
@@ -155,6 +155,15 @@ void GameManager::ResetPhysics()
 
 void GameManager::BakeBlockOnTheGrid()
 {
+	incomingEdges[activeBlockIndex] = {};
+	outgoingEdges[activeBlockIndex] = {};
+
+	const auto bottomColliders = GetAllCollidersInDirection(godot::Vector2i{0, 1});
+	const auto topColliders = GetAllCollidersInDirection(godot::Vector2i{0, -1});
+
+
+
+
 	auto& shape = activeBlock->GetShape();
 	for(const auto& position : shape)
 	{
@@ -188,7 +197,6 @@ void GameManager::MoveBlockLeft()
 	{
 		activeBlock->translate(godot::Vector2{-NODE_SIZE, 0});
 		blockGridPosition.x -= 1;
-//		SnapBlockToGrid();
 	}
 }
 
@@ -198,7 +206,6 @@ void GameManager::MoveBlockRight()
 	{
 		activeBlock->translate(godot::Vector2{NODE_SIZE, 0});
 		blockGridPosition.x += 1;
-//		SnapBlockToGrid();
 	}
 }
 

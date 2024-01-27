@@ -5,6 +5,7 @@
 #include <godot_cpp/classes/packed_scene.hpp>
 
 #include <vector>
+#include <map>
 #include "block.h"
 
 namespace ggj
@@ -60,6 +61,9 @@ private:
 
 	std::vector<std::vector<int>> grid{};
 	std::vector<Block*> blocks{};
+
+	std::map<int, std::vector<int>> incomingEdges{};
+	std::map<int, std::vector<int>> outgoingEdges{};
 
 	const int GRID_WIDTH = 10;
 	const int GRID_HEIGHT = 8;
