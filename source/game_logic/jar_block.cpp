@@ -15,12 +15,14 @@ JarBlock::JarBlock()
 
 }
 
-void JarBlock::ReceiveEnergy(float energy)
+float JarBlock::ReceiveEnergy(float energy)
 {
 	if(!isShattered)
 	{
 		totalEnergy += energy;
 	}
+
+	return totalEnergy;
 }
 
 float JarBlock::ProcessEnergy()
@@ -29,6 +31,7 @@ float JarBlock::ProcessEnergy()
 
 	if(totalEnergy > ENERGY_THRESHOLD)
 	{
+		godot::UtilityFunctions::print("JarBlock: ", blockIndex, " destroyed");
 		isShattered = true;
 	}
 

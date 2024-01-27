@@ -15,7 +15,7 @@ class JarBlock : public BaseBlock
 public:
 	JarBlock();
 
-	void ReceiveEnergy(float energy) override;
+	float ReceiveEnergy(float energy) override;
 
 	float ProcessEnergy();
 

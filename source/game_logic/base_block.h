@@ -14,7 +14,7 @@ public:
 	BaseBlock();
 
 	virtual void InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i position, int blockIndex, float step);
-	virtual void ReceiveEnergy(float energy) = 0;
+	virtual float ReceiveEnergy(float energy) = 0;
 
 	const std::vector<godot::Vector2i>& GetShape() const;
 	const int GetIndex() const;

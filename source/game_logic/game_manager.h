@@ -32,6 +32,7 @@ public:
 	void CheckBlockCollision();
 	void HandleBlockCollision();
 	void TransferEnergy();
+	void PushJar();
 
 	int CountBlockDependencies(int blockIndex, const std::set<int> visited) const;
 
@@ -63,6 +64,7 @@ private:
 	const float TOP_BOUNDS = 40.0f;
 	const float NODE_SIZE = 32.0f;
 	const float ACCELERATION = 0.5f;
+	const float JAR_ENERGY_THRESHOLD = 10.0f;
 
 	std::vector<std::vector<int>> grid{};
 	std::vector<BaseBlock*> blocks{};

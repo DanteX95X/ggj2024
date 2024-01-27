@@ -154,20 +154,14 @@ void GameManager::HandleBlockCollision()
 {
 	BakeBlockOnTheGrid(activeBlock);
 	TransferEnergy();
-
-	float totalJarEnergy = 0;
-	for(const auto& jarBlock : jarBlocks)
-	{
-		totalJarEnergy += jarBlock->ProcessEnergy();
-	}
-
+	PushJar();
 	SpawnNextBlock();
 }
 
 void GameManager::TransferEnergy()
 {
-	//TODO: PRoper energy calculation
-	std::vector<std::pair<int, float>> frontier{{activeBlock->GetIndex(), 10.0f}};
+	float initialEnergy = previousVelocity * previousVelocity;
+	std::vector<std::pair<int, float>> frontier{{activeBlock->GetIndex(), initialEnergy}};
 	std::set<int> visited{};
 
 	while(!frontier.empty())
@@ -185,17 +179,31 @@ void GameManager::TransferEnergy()
 
 		visited.insert(currentBlockIndex);
 
-		blocks[currentBlockIndex]->ReceiveEnergy(energy);
+		energy = blocks[currentBlockIndex]->ReceiveEnergy(energy);
 		const auto& outgoing = outgoingEdges[currentBlockIndex];
 		energy /= outgoing.size();
-		//TODO: pass energy
+
 		godot::UtilityFunctions::print("frontier top: ", currentBlockIndex);
 
 		for(const auto& neighbourIndex : outgoing)
 		{
 			frontier.push_back({neighbourIndex, energy});
 		}
-//		frontier.insert(frontier.end(), outgoing.begin(), outgoing.end());
+	}
+}
+
+void GameManager::PushJar()
+{
+	float totalJarEnergy = 0;
+	for(const auto& jarBlock : jarBlocks)
+	{
+		totalJarEnergy += jarBlock->ProcessEnergy();
+	}
+
+	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
+	{
+		godot::UtilityFunctions::print("jar pushed, energy: ", totalJarEnergy);
+		//TODO: Handle jar pushing
 	}
 }
 

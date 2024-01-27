@@ -28,7 +28,7 @@ public:
 
 	void _ready() override;
 
-	void ReceiveEnergy(float energy) override;
+	float ReceiveEnergy(float energy) override;
 
 	void InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i position, int blockIndex, float step) override;
 	void Rotate(float step);
