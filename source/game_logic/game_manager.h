@@ -35,7 +35,7 @@ public:
 	void TransferEnergy();
 	void PushJar();
 
-	void GameOver();
+	void GameOver(std::string message);
 
 	int CountBlockDependencies(int blockIndex, const std::set<int> visited) const;
 

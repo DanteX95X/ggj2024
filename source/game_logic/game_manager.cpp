@@ -22,6 +22,10 @@ void GameManager::_bind_methods()
 	godot::ClassDB::bind_method(godot::D_METHOD("SetJarScene"), &GameManager::SetJarScene);
 	godot::ClassDB::bind_method(godot::D_METHOD("GetJarScene"), &GameManager::GetJarScene);
 	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "JarScene"), "SetJarScene", "GetJarScene");
+
+	ADD_SIGNAL(godot::MethodInfo("game_over",
+	                             godot::PropertyInfo(godot::Variant::STRING, "message")
+	                             ));
 }
 
 GameManager::GameManager()
@@ -73,11 +77,11 @@ void GameManager::SpawnNextBlock()
 	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, SPAWN_POINT, SHAPES[rng(twister)]));
 	if(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0)
 	{
-		//TODO: Handle this game over condition. Cannotspawn.
-		godot::UtilityFunctions::print("GAME OVER: BLOCKED");
+		std::string message = "GAME OVER: Blocks blocked";
+		godot::UtilityFunctions::print(message.c_str());
 		activeBlock->queue_free();
 		activeBlock = nullptr;
-		GameOver();
+		GameOver(message);
 	}
 }
 
@@ -220,8 +224,9 @@ void GameManager::PushJar()
 
 	if(shatteredJarBlocks >= JAR_SHATTER_THRESHOLD)
 	{
-		godot::UtilityFunctions::print("GAME OVER: Jar shattered");
-		GameOver();
+		std::string message = "GAME OVER: Jar shattered";
+		godot::UtilityFunctions::print(message.c_str());
+		GameOver(message);
 	}
 
 	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
@@ -231,8 +236,9 @@ void GameManager::PushJar()
 	}
 }
 
-void GameManager::GameOver()
+void GameManager::GameOver(std::string message)
 {
+	emit_signal("game_over", godot::String(message.c_str()));
 	queue_free();
 }
 
@@ -323,8 +329,9 @@ void GameManager::MoveJarDown()
 
 	if(jarBlocks.front()->GetPosition().y == GRID_HEIGHT -1)
 	{
-		godot::UtilityFunctions::print("GAME WON: JAR PUSHED OUT");
-		GameOver();
+		std::string message = "YOU WON: Jar pushed out";
+		godot::UtilityFunctions::print(message.c_str());
+		GameOver(message);
 	}
 }
 
