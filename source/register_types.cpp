@@ -19,6 +19,7 @@ void initialize_example_module(godot::ModuleInitializationLevel p_level) {
 
 	godot::ClassDB::register_class<test::Hello>();
 	godot::ClassDB::register_class<test::MoveAround>();
+	godot::ClassDB::register_class<ggj::BaseBlock>();
 	godot::ClassDB::register_class<ggj::Block>();
 	godot::ClassDB::register_class<ggj::JarBlock>();
 	godot::ClassDB::register_class<ggj::GameManager>();

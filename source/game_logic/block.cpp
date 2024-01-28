@@ -25,7 +25,14 @@ void Block::_ready()
 
 float Block::ReceiveEnergy(float energy)
 {
+	BaseBlock::ReceiveEnergy(energy);
 	godot::UtilityFunctions::print("Block: ", blockIndex, ", energy: ", energy);
+//	for(auto& node : nodes)
+//	{
+//		godot::Color color = node->get_modulate();
+//		color.a = 0.1f;
+//		node->set_modulate(color);
+//	}
 	return energy;
 }
 

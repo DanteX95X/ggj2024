@@ -17,9 +17,15 @@ JarBlock::JarBlock()
 
 float JarBlock::ReceiveEnergy(float energy)
 {
+	BaseBlock::ReceiveEnergy(energy);
+
 	if(!isShattered)
 	{
 		totalEnergy += energy;
+	}
+	else
+	{
+		shouldBlink = false;
 	}
 
 	return totalEnergy;

@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtjrgpaniqqfh"]
+[gd_scene load_steps=3 format=3 uid="uid://dtjrgpaniqqfh"]
 
 [ext_resource type="Texture2D" uid="uid://c0yq2io1m8hhr" path="res://assets/cracks.png" id="1_07qey"]
+[ext_resource type="Texture2D" uid="uid://dymq2i51i5is6" path="res://assets/glass.png" id="1_fu0xn"]
 
 [node name="JarBlock" type="JarBlock"]
+
+[node name="Glass" type="Sprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_fu0xn")
+flip_v = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false

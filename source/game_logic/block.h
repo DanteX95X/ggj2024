@@ -4,6 +4,7 @@
 #include "base_block.h"
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/packed_scene.hpp>
+#include <godot_cpp/classes/sprite2d.hpp>
 
 #include <vector>
 #include <random>
@@ -44,7 +45,7 @@ public:
 private:
 	std::mt19937 twister{std::random_device{}()};
 	godot::Ref<godot::PackedScene> nodeScene{};
-	std::vector<Node2D*> nodes{};
+	std::vector<godot::Sprite2D*> nodes{};
 
 	BlockSpan span{};
 };
