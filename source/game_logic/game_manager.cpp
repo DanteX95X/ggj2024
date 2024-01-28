@@ -26,6 +26,24 @@ void GameManager::_bind_methods()
 	ADD_SIGNAL(godot::MethodInfo("game_over",
 	                             godot::PropertyInfo(godot::Variant::STRING, "message")
 	                             ));
+	ADD_SIGNAL(godot::MethodInfo("total_energy_updated",
+	                             godot::PropertyInfo(godot::Variant::FLOAT, "total_energy")
+	                             ));
+	ADD_SIGNAL(godot::MethodInfo("energy_threshold_updated",
+	                             godot::PropertyInfo(godot::Variant::FLOAT, "energy_threshold")
+	                             ));
+	ADD_SIGNAL(godot::MethodInfo("max_energy_updated",
+	                             godot::PropertyInfo(godot::Variant::FLOAT, "max_energy")
+	                             ));
+	ADD_SIGNAL(godot::MethodInfo("jar_block_energy_threshold_updated",
+	                             godot::PropertyInfo(godot::Variant::FLOAT, "jar_block_energy_threshold")
+	                             ));
+	ADD_SIGNAL(godot::MethodInfo("jar_blocks_shattered",
+	                             godot::PropertyInfo(godot::Variant::INT, "jar_blocks_shattered")
+	                             ));
+	ADD_SIGNAL(godot::MethodInfo("jar_shattering_threshold",
+	                             godot::PropertyInfo(godot::Variant::INT, "jar_shattering_threshold")
+	                             ));
 }
 
 GameManager::GameManager()
@@ -39,6 +57,10 @@ void GameManager::_ready()
 	{
 		return;
 	}
+
+	emit_signal("energy_threshold_updated", JAR_ENERGY_THRESHOLD);
+	emit_signal("jar_block_energy_threshold_updated", JarBlock::ENERGY_THRESHOLD);
+	emit_signal("jar_shattering_threshold", JAR_SHATTER_THRESHOLD);
 
 	jar = static_cast<godot::Node2D*>(jarScene->instantiate());
 	call_deferred("add_sibling", jar);
@@ -212,15 +234,22 @@ void GameManager::TransferEnergy()
 void GameManager::PushJar()
 {
 	float totalJarEnergy = 0;
+	float maxEnergy = 0;
 	int shatteredJarBlocks = 0;
 	for(const auto& jarBlock : jarBlocks)
 	{
-		totalJarEnergy += jarBlock->ProcessEnergy();
+		float blockEnergy = jarBlock->ProcessEnergy();
+		totalJarEnergy += blockEnergy;
+		maxEnergy = godot::Math::max(blockEnergy, maxEnergy);
 		if(jarBlock->GetIsShattered())
 		{
 			++shatteredJarBlocks;
 		}
 	}
+
+	emit_signal("total_energy_updated", totalJarEnergy);
+	emit_signal("max_energy_updated", maxEnergy);
+	emit_signal("jar_blocks_shattered", shatteredJarBlocks);
 
 	if(shatteredJarBlocks >= JAR_SHATTER_THRESHOLD)
 	{

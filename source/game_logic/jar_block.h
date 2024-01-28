@@ -21,8 +21,9 @@ public:
 
 	bool GetIsShattered() const;
 
+	inline static const float ENERGY_THRESHOLD{6};
+
 private:
-	const float ENERGY_THRESHOLD{6};
 	bool isShattered{false};
 	float totalEnergy{};
 };

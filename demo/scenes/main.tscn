@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d1tb5kx77w5qh"]
+[gd_scene load_steps=13 format=3 uid="uid://d1tb5kx77w5qh"]
 
 [ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_6lpw5"]
 [ext_resource type="LabelSettings" uid="uid://e63krhxxbjd6" path="res://fonts/info.tres" id="1_cvb28"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/retry_button.gd" id="6_a4s0d"]
 [ext_resource type="Script" path="res://scripts/quit_button.gd" id="7_rwrgr"]
 [ext_resource type="LabelSettings" uid="uid://d1np4luo1i1s2" path="res://fonts/title.tres" id="9_6aqtf"]
+[ext_resource type="Script" path="res://scripts/set_value.gd" id="9_hmw7u"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_y5ca6"]
 specular_color = Color(0.74902, 0.12549, 0.188235, 1)
@@ -77,10 +78,10 @@ script = ExtResource("7_rwrgr")
 [node name="TotalEnergyLabel" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = -700.0
-offset_top = -60.0
-offset_right = -565.0
-offset_bottom = -36.0
+offset_left = -650.0
+offset_top = -50.0
+offset_right = -515.0
+offset_bottom = -26.0
 grow_horizontal = 0
 grow_vertical = 2
 text = "Total Energy: "
@@ -94,10 +95,11 @@ offset_left = -10.0
 offset_top = 32.0
 offset_right = 112.0
 offset_bottom = 56.0
-text = "0.7000"
+text = "0"
 label_settings = ExtResource("1_cvb28")
 vertical_alignment = 1
 text_overrun_behavior = 1
+script = ExtResource("9_hmw7u")
 
 [node name="JarEnergyThreshold" type="Label" parent="CanvasLayer/Control/TotalEnergyLabel"]
 layout_mode = 0
@@ -105,10 +107,11 @@ offset_left = 148.0
 offset_top = 32.0
 offset_right = 270.0
 offset_bottom = 56.0
-text = "0.7000"
+text = "0"
 label_settings = ExtResource("1_cvb28")
 vertical_alignment = 1
 text_overrun_behavior = 1
+script = ExtResource("9_hmw7u")
 
 [node name="Slash" type="Label" parent="CanvasLayer/Control/TotalEnergyLabel"]
 layout_mode = 0
@@ -124,9 +127,9 @@ text_overrun_behavior = 1
 [node name="MaxEnergyLabel" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = -700.0
+offset_left = -650.0
 offset_top = 40.0
-offset_right = -565.0
+offset_right = -515.0
 offset_bottom = 64.0
 grow_horizontal = 0
 grow_vertical = 2
@@ -141,10 +144,11 @@ offset_left = -10.0
 offset_top = 32.0
 offset_right = 112.0
 offset_bottom = 56.0
-text = "0.7000"
+text = "0"
 label_settings = ExtResource("1_cvb28")
 vertical_alignment = 1
 text_overrun_behavior = 1
+script = ExtResource("9_hmw7u")
 
 [node name="JarBlockEnergyThreshold" type="Label" parent="CanvasLayer/Control/MaxEnergyLabel"]
 layout_mode = 0
@@ -152,12 +156,62 @@ offset_left = 148.0
 offset_top = 32.0
 offset_right = 270.0
 offset_bottom = 56.0
-text = "0.7000"
+text = "0"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+script = ExtResource("9_hmw7u")
+
+[node name="Slash" type="Label" parent="CanvasLayer/Control/MaxEnergyLabel"]
+layout_mode = 0
+offset_left = 119.0
+offset_top = 32.0
+offset_right = 146.0
+offset_bottom = 56.0
+text = "/"
 label_settings = ExtResource("1_cvb28")
 vertical_alignment = 1
 text_overrun_behavior = 1
 
-[node name="Slash" type="Label" parent="CanvasLayer/Control/MaxEnergyLabel"]
+[node name="JarPartsShatteredLabel" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -650.0
+offset_top = 130.0
+offset_right = -455.0
+offset_bottom = 154.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Jar Parts Shattered:"
+label_settings = ExtResource("1_cvb28")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShatteredParts" type="Label" parent="CanvasLayer/Control/JarPartsShatteredLabel"]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 32.0
+offset_right = 112.0
+offset_bottom = 56.0
+text = "0"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+script = ExtResource("9_hmw7u")
+
+[node name="ShatteringThreshold" type="Label" parent="CanvasLayer/Control/JarPartsShatteredLabel"]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 32.0
+offset_right = 270.0
+offset_bottom = 56.0
+text = "0"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+script = ExtResource("9_hmw7u")
+
+[node name="Slash" type="Label" parent="CanvasLayer/Control/JarPartsShatteredLabel"]
 layout_mode = 0
 offset_left = 119.0
 offset_top = 32.0
@@ -218,7 +272,13 @@ texture = ExtResource("5_oywfv")
 position = Vector2(-2, 0)
 offset = Vector2(640, 360)
 
+[connection signal="energy_threshold_updated" from="InputManager/GameManager" to="CanvasLayer/Control/TotalEnergyLabel/JarEnergyThreshold" method="_on_game_manager_value_signal"]
 [connection signal="game_over" from="InputManager/GameManager" to="CanvasLayer/Control/Messages" method="_on_game_manager_game_over"]
+[connection signal="jar_block_energy_threshold_updated" from="InputManager/GameManager" to="CanvasLayer/Control/MaxEnergyLabel/JarBlockEnergyThreshold" method="_on_game_manager_value_signal"]
+[connection signal="jar_blocks_shattered" from="InputManager/GameManager" to="CanvasLayer/Control/JarPartsShatteredLabel/ShatteredParts" method="_on_game_manager_value_signal"]
+[connection signal="jar_shattering_threshold" from="InputManager/GameManager" to="CanvasLayer/Control/JarPartsShatteredLabel/ShatteringThreshold" method="_on_game_manager_value_signal"]
+[connection signal="max_energy_updated" from="InputManager/GameManager" to="CanvasLayer/Control/MaxEnergyLabel/MaxEnergyValue" method="_on_game_manager_value_signal"]
+[connection signal="total_energy_updated" from="InputManager/GameManager" to="CanvasLayer/Control/TotalEnergyLabel/TotalEnergyValue" method="_on_game_manager_value_signal"]
 [connection signal="pressed" from="CanvasLayer/Control/Messages/RetryButton" to="CanvasLayer/Control/Messages/RetryButton" method="_on_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Messages/QuitButton" to="CanvasLayer/Control/Messages" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Messages/QuitButton" to="CanvasLayer/Control/Messages/QuitButton" method="_on_pressed"]
