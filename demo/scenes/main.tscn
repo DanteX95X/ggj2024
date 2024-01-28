@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1tb5kx77w5qh"]
+[gd_scene load_steps=10 format=3 uid="uid://d1tb5kx77w5qh"]
 
 [ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_6lpw5"]
 [ext_resource type="LabelSettings" uid="uid://e63krhxxbjd6" path="res://fonts/labels.tres" id="1_cvb28"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bb4lut3ku3cmo" path="res://scenes/Jar.tscn" id="4_2gd0w"]
 [ext_resource type="Texture2D" uid="uid://d1wpgaiw6to5f" path="res://assets/hole-1991881_1280.png" id="5_oywfv"]
 [ext_resource type="Script" path="res://scripts/messages.gd" id="5_p5hjm"]
+[ext_resource type="Script" path="res://scripts/retry_button.gd" id="6_a4s0d"]
+[ext_resource type="Script" path="res://scripts/quit_button.gd" id="7_rwrgr"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_y5ca6"]
 specular_color = Color(0.74902, 0.12549, 0.188235, 1)
@@ -50,6 +52,25 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_p5hjm")
 
+[node name="RetryButton" type="Button" parent="CanvasLayer/Control/Messages"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 53.0
+offset_right = 141.0
+offset_bottom = 98.0
+text = "Retry"
+script = ExtResource("6_a4s0d")
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/Control/Messages"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 115.0
+offset_right = 141.0
+offset_bottom = 160.0
+text = "Quit
+"
+script = ExtResource("7_rwrgr")
+
 [node name="TotalEnergyLabel" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
@@ -67,9 +88,9 @@ vertical_alignment = 1
 [node name="TotalEnergyValue" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 0
 offset_left = -592.0
-offset_top = -103.0
+offset_top = -106.0
 offset_right = -470.0
-offset_bottom = -80.0
+offset_bottom = -83.0
 text = "0.7000"
 label_settings = ExtResource("1_cvb28")
 horizontal_alignment = 1
@@ -108,3 +129,6 @@ position = Vector2(-2, 0)
 offset = Vector2(640, 360)
 
 [connection signal="game_over" from="InputManager/GameManager" to="CanvasLayer/Control/Messages" method="_on_game_manager_game_over"]
+[connection signal="pressed" from="CanvasLayer/Control/Messages/RetryButton" to="CanvasLayer/Control/Messages/RetryButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Messages/QuitButton" to="CanvasLayer/Control/Messages" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Messages/QuitButton" to="CanvasLayer/Control/Messages/QuitButton" method="_on_pressed"]
