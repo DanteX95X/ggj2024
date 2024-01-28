@@ -2,6 +2,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/core/math.hpp>
+#include <godot_cpp/classes/sprite2d.hpp>
 
 namespace ggj
 {
@@ -33,9 +34,12 @@ void Block::InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i 
 	BaseBlock::InitializeBlock(shape, position, blockIndex, step);
 
 	nodes.reserve(4);
+	std::uniform_real_distribution rng{0.0f, 1.0f};
+	godot::Color color{rng(twister), rng(twister), rng(twister)};
 	for(const auto& position : shape)
 	{
-		auto node = static_cast<godot::Node2D*>(nodeScene->instantiate());
+		auto node = static_cast<godot::Sprite2D*>(nodeScene->instantiate());
+		node->set_modulate(color);
 		add_child(node);
 		node->set_position(position * step);
 		nodes.push_back(node);

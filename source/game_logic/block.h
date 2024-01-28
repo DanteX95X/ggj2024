@@ -6,6 +6,7 @@
 #include <godot_cpp/classes/packed_scene.hpp>
 
 #include <vector>
+#include <random>
 
 namespace ggj
 {
@@ -41,6 +42,7 @@ public:
 	BlockSpan GetSpan() const;
 
 private:
+	std::mt19937 twister{std::random_device{}()};
 	godot::Ref<godot::PackedScene> nodeScene{};
 	std::vector<Node2D*> nodes{};
 
