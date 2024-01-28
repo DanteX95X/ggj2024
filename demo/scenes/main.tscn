@@ -59,11 +59,25 @@ label_settings = ExtResource("1_cvb28")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+[node name="Background1" type="Sprite2D" parent="CanvasLayer"]
 modulate = Color(1, 0.172549, 0.141176, 0.423529)
 z_index = -100
 position = Vector2(640.75, 359.25)
 scale = Vector2(1282.5, 719.5)
+texture = SubResource("CanvasTexture_y5ca6")
+
+[node name="Background2" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(0, 0, 0, 0.423529)
+z_index = -100
+position = Vector2(844.5, 359.25)
+scale = Vector2(875, 719.5)
+texture = SubResource("CanvasTexture_y5ca6")
+
+[node name="Background3" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(0, 0, 0, 0.423529)
+z_index = -100
+position = Vector2(42.5, 359)
+scale = Vector2(87, 719.5)
 texture = SubResource("CanvasTexture_y5ca6")
 
 [node name="Camera2D" type="Camera2D" parent="."]
