@@ -38,6 +38,9 @@ void GameManager::_bind_methods()
 	ADD_SIGNAL(godot::MethodInfo("jar_block_energy_threshold_updated",
 	                             godot::PropertyInfo(godot::Variant::FLOAT, "jar_block_energy_threshold")
 	                             ));
+	ADD_SIGNAL(godot::MethodInfo("current_energy_updated",
+	                             godot::PropertyInfo(godot::Variant::FLOAT, "current_energy")
+	                             ));
 	ADD_SIGNAL(godot::MethodInfo("jar_blocks_shattered",
 	                             godot::PropertyInfo(godot::Variant::INT, "jar_blocks_shattered")
 	                             ));
@@ -137,6 +140,8 @@ void GameManager::CalculateBlockMotion(double delta)
 	auto displacement = velocity * delta;
 	accumulatedDistance += displacement;
 	previousVelocity = velocity;
+
+	emit_signal("current_energy_updated", velocity * velocity);
 }
 
 void GameManager::ProcessBlockFall()

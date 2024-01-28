@@ -85,11 +85,11 @@ layout_mode = 1
 anchors_preset = -1
 offset_left = -640.0
 offset_top = -45.0
-offset_right = -505.0
+offset_right = -373.0
 offset_bottom = -21.0
 grow_horizontal = 0
 grow_vertical = 2
-text = "Total Energy: "
+text = "Current Block Energy: "
 label_settings = ExtResource("1_cvb28")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -324,6 +324,7 @@ position = Vector2(253.5, 716)
 scale = Vector2(0.500781, 0.1)
 texture = ExtResource("5_oywfv")
 
+[connection signal="current_energy_updated" from="InputManager/GameManager" to="CanvasLayer/Control/CurrentEnergy/CurrentEnergyValue" method="_on_game_manager_value_signal"]
 [connection signal="energy_threshold_updated" from="InputManager/GameManager" to="CanvasLayer/Control/TotalEnergyLabel/JarEnergyThreshold" method="_on_game_manager_value_signal"]
 [connection signal="game_over" from="InputManager/GameManager" to="CanvasLayer/Messages" method="_on_game_manager_game_over"]
 [connection signal="jar_block_energy_threshold_updated" from="InputManager/GameManager" to="CanvasLayer/Control/MaxEnergyLabel/JarBlockEnergyThreshold" method="_on_game_manager_value_signal"]
