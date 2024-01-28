@@ -41,7 +41,7 @@ void GameManager::_ready()
 	}
 
 	jar = static_cast<godot::Node2D*>(jarScene->instantiate());
-	add_child(jar);
+	call_deferred("add_sibling", jar);
 	jar->set_position(godot::Vector2{(LEFT_BOUNDS + GRID_WIDTH * NODE_SIZE)/ 2.0f, (GRID_HEIGHT - 1 - INITIAL_JAR_DEPTH) * NODE_SIZE});
 	jar->set_z_index(100);
 
@@ -92,7 +92,7 @@ BaseBlock* GameManager::SpawnBlockAt(godot::Ref<godot::PackedScene> scene, godot
 	blocks.push_back(block);
 	block->set_position(godot::Vector2{LEFT_BOUNDS + NODE_SIZE * gridPosition.x,
 	                                         TOP_BOUNDS + NODE_SIZE * gridPosition.y});
-	add_child(block);
+	call_deferred("add_sibling", block);
 
 	return block;
 }
