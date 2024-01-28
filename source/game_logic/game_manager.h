@@ -73,10 +73,10 @@ private:
 	const float LEFT_BOUNDS = 100.0f;
 	const float TOP_BOUNDS = -36.0f;
 	const float NODE_SIZE = 32.0f;
-	const float INITIAL_ACCELERATION = 0.5f;
+	const float INITIAL_ACCELERATION = 1.0f;
 	const float ACCELERATION_INCREMENT = 0.25f;
-	const float JAR_ENERGY_THRESHOLD = 5.0f;
-	const int INITIAL_JAR_DEPTH = 7;
+	const float JAR_ENERGY_THRESHOLD = 15.0f;
+	const int INITIAL_JAR_DEPTH = 9;
 	const int JAR_SHATTER_THRESHOLD =3;
 
 	std::vector<std::vector<int>> grid{};
