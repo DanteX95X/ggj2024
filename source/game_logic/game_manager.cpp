@@ -84,6 +84,11 @@ void GameManager::_ready()
 
 void GameManager::_physics_process(double delta)
 {
+	if(godot::Engine::get_singleton()->is_editor_hint())
+	{
+		return;
+	}
+
 	if(activeBlock != nullptr)
 	{
 		CalculateBlockMotion(delta);
