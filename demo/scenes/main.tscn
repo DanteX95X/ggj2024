@@ -1,13 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1tb5kx77w5qh"]
+[gd_scene load_steps=6 format=3 uid="uid://d1tb5kx77w5qh"]
 
 [ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_6lpw5"]
 [ext_resource type="LabelSettings" uid="uid://e63krhxxbjd6" path="res://fonts/labels.tres" id="1_cvb28"]
 [ext_resource type="PackedScene" uid="uid://dtjrgpaniqqfh" path="res://scenes/JarBlock.tscn" id="2_1344d"]
 [ext_resource type="PackedScene" uid="uid://bb4lut3ku3cmo" path="res://scenes/Jar.tscn" id="4_2gd0w"]
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_y5ca6"]
+specular_color = Color(0.74902, 0.12549, 0.188235, 1)
+
 [node name="Root" type="Node"]
 
+[node name="InputManager" type="InputManager" parent="."]
+
+[node name="GameManager" type="GameManager" parent="InputManager"]
+BlockScene = ExtResource("1_6lpw5")
+JarBlockScene = ExtResource("2_1344d")
+JarScene = ExtResource("4_2gd0w")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -2
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -16,16 +27,20 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
+offset_left = -148.0
+offset_top = -31.0
+offset_right = -148.0
+offset_bottom = -31.0
 grow_horizontal = 0
 grow_vertical = 2
 
 [node name="TotalEnergyLabel" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = -271.0
-offset_top = -63.0
-offset_right = -166.0
-offset_bottom = -40.0
+offset_left = -165.0
+offset_top = 12.0
+offset_right = -57.0
+offset_bottom = 35.0
 grow_horizontal = 0
 grow_vertical = 2
 text = "Total Energy: "
@@ -35,18 +50,22 @@ vertical_alignment = 1
 
 [node name="TotalEnergyValue" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = -163.0
-offset_top = -62.0
-offset_right = -41.0
-offset_bottom = -39.0
+offset_left = -54.0
+offset_top = 13.0
+offset_right = 68.0
+offset_bottom = 36.0
 text = "0.7000"
 label_settings = ExtResource("1_cvb28")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InputManager" type="InputManager" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(1, 0.172549, 0.141176, 0.423529)
+z_index = -100
+position = Vector2(640.75, 359.25)
+scale = Vector2(1282.5, 719.5)
+texture = SubResource("CanvasTexture_y5ca6")
 
-[node name="GameManager" type="GameManager" parent="InputManager"]
-BlockScene = ExtResource("1_6lpw5")
-JarBlockScene = ExtResource("2_1344d")
-JarScene = ExtResource("4_2gd0w")
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-2, 0)
+offset = Vector2(640, 360)

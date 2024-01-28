@@ -1,11 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtjrgpaniqqfh"]
 
-[ext_resource type="Texture2D" uid="uid://cxc5bg2bdqelw" path="res://icon.png" id="1_uoviv"]
+[ext_resource type="Texture2D" uid="uid://b1ovboawjrk35" path="res://assets/glass_crack.png" id="1_wcyiy"]
 
 [node name="JarBlock" type="JarBlock"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.211765)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_uoviv")
+scale = Vector2(0.042, 0.07)
+texture = ExtResource("1_wcyiy")
 flip_v = true

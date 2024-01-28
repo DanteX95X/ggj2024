@@ -3,12 +3,4 @@
 [ext_resource type="PackedScene" uid="uid://3s2ab6x1dmso" path="res://scenes/Node.tscn" id="1_8eeod"]
 
 [node name="Block" type="Block"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-editor_description = ""
 NodeScene = ExtResource("1_8eeod")
-script = null
