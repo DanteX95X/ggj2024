@@ -89,6 +89,13 @@ void GameManager::_physics_process(double delta)
 		CalculateBlockMotion(delta);
 		ProcessBlockFall();
 	}
+
+	timeCounter += delta;
+	if(timeCounter >= JAR_MOVEMENT_TIME)
+	{
+		timeCounter -= JAR_MOVEMENT_TIME;
+		MoveJarUp();
+	}
 }
 
 void GameManager::SpawnNextBlock()
@@ -343,7 +350,7 @@ void GameManager::MoveJarDown()
 {
 	for(int y = GRID_HEIGHT - 1; y > 0; --y)
 	{
-		grid[y] = grid[y -1];
+		grid[y] = grid[y - 1];
 	}
 	grid[0] = std::vector<int>(GRID_WIDTH, -1);
 
@@ -362,6 +369,25 @@ void GameManager::MoveJarDown()
 		godot::UtilityFunctions::print(message.c_str());
 		GameOver(message);
 	}
+}
+
+//TODO: Reduce copy-paste
+void GameManager::MoveJarUp()
+{
+	for(int y = 0; y < GRID_HEIGHT - 1; ++y)
+	{
+		grid[y] = grid[y + 1];
+	}
+	grid[GRID_HEIGHT - 1] = std::vector<int>(GRID_WIDTH, -1);
+
+	godot::Vector2i displacement{0, -1};
+	for(auto& block : blocks)
+	{
+		block->SetPosition(block->GetPosition() + displacement);
+		block->translate(displacement * NODE_SIZE);
+	}
+
+	jar->translate(displacement * NODE_SIZE);
 }
 
 void GameManager::MoveBlockLeft()

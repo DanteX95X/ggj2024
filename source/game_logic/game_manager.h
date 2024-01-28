@@ -43,6 +43,7 @@ public:
 	void BakeBlockOnTheGrid(BaseBlock* block);
 
 	void MoveJarDown();
+	void MoveJarUp();
 
 	void MoveBlockLeft();
 	void MoveBlockRight();
@@ -65,6 +66,8 @@ private:
 	float accumulatedDistance = 0;
 	float acceleration = INITIAL_ACCELERATION;
 
+	float timeCounter = 0.0f;
+
 
 	godot::Ref<godot::PackedScene> blockScene;
 	godot::Ref<godot::PackedScene> jarBlockScene;
@@ -74,10 +77,11 @@ private:
 	const float TOP_BOUNDS = -36.0f;
 	const float NODE_SIZE = 32.0f;
 	const float INITIAL_ACCELERATION = 1.0f;
-	const float ACCELERATION_INCREMENT = 0.25f;
+	const float ACCELERATION_INCREMENT = 0.5f;
 	const float JAR_ENERGY_THRESHOLD = 15.0f;
 	const int INITIAL_JAR_DEPTH = 9;
 	const int JAR_SHATTER_THRESHOLD =3;
+	const float JAR_MOVEMENT_TIME = 10.0f;
 
 	std::vector<std::vector<int>> grid{};
 	std::vector<BaseBlock*> blocks{};

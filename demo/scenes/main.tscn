@@ -38,13 +38,10 @@ layer = 2
 [node name="Messages" type="Label" parent="CanvasLayer"]
 z_index = 100
 z_as_relative = false
-anchors_preset = -1
-offset_left = 97.0
+offset_left = 34.0
 offset_top = 184.0
-offset_right = 578.0
+offset_right = 515.0
 offset_bottom = 222.0
-grow_horizontal = 0
-grow_vertical = 2
 label_settings = ExtResource("4_sadr6")
 horizontal_alignment = 1
 vertical_alignment = 1
