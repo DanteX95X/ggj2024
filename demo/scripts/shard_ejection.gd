@@ -20,6 +20,11 @@ func game_over(message, didWin):
 			shard.apply_impulse(Vector2(rng.randf_range(-1.0, 1.0), rng.randf_range(-1.0, 1.0)).normalized() * 1000)
 		texture = null
 		get_node("AudioShatteredJar").play()
+		get_node("AudioLaughter").play()
+	else:
+		get_node("AudioPop").play()
+		get_node("AudioApplause").play()
+		
 
 func block_shattered():
 	get_node("AudioShatteredBlock").play()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bb4lut3ku3cmo"]
+[gd_scene load_steps=12 format=3 uid="uid://bb4lut3ku3cmo"]
 
 [ext_resource type="Texture2D" uid="uid://baoe6j4er1fcr" path="res://assets/jar_visible.png" id="1_rguap"]
 [ext_resource type="Script" path="res://scripts/shard_ejection.gd" id="2_ntdv0"]
@@ -8,6 +8,9 @@
 [ext_resource type="AudioStream" uid="uid://lef4cexxbe3f" path="res://sounds/glass_light_collision.wav" id="6_jlchc"]
 [ext_resource type="AudioStream" uid="uid://bc8tkatxycnjp" path="res://sounds/jar_collision.wav" id="7_dt6b2"]
 [ext_resource type="AudioStream" uid="uid://cjgp15lmbdc34" path="res://sounds/jar_moves_up.wav" id="8_rybw5"]
+[ext_resource type="AudioStream" uid="uid://l7bq0urk6l1o" path="res://sounds/applause.wav" id="9_4wp71"]
+[ext_resource type="AudioStream" uid="uid://dabg42avh6q76" path="res://sounds/pop.mp3" id="10_bowi0"]
+[ext_resource type="AudioStream" uid="uid://bm8ba8kg2jtao" path="res://sounds/lose.wav" id="11_m4f72"]
 
 [node name="Jar" type="Sprite2D"]
 position = Vector2(0, 2)
@@ -32,3 +35,13 @@ stream = ExtResource("7_dt6b2")
 
 [node name="AudioJarMovesUp" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_rybw5")
+
+[node name="AudioApplause" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_4wp71")
+
+[node name="AudioPop" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_bowi0")
+volume_db = 5.0
+
+[node name="AudioLaughter" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_m4f72")
