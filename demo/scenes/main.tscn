@@ -292,7 +292,7 @@ scale = Vector2(87, 719.5)
 texture = SubResource("CanvasTexture_y5ca6")
 
 [node name="Hole" type="Sprite2D" parent="CanvasLayer2"]
-modulate = Color(0, 0, 0, 0.27451)
+modulate = Color(0, 0, 0, 0.560784)
 z_index = -100
 position = Vector2(253.5, 716)
 scale = Vector2(0.500781, 0.1)
