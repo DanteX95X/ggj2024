@@ -6,4 +6,4 @@
 rotation = 3.14159
 scale = Vector2(0.35, 0.3)
 texture = ExtResource("1_m1qwc")
-offset = Vector2(-100, -550)
+offset = Vector2(-100, -750)

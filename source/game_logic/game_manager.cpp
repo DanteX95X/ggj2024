@@ -39,6 +39,7 @@ void GameManager::_ready()
 	jar = static_cast<godot::Node2D*>(jarScene->instantiate());
 	add_child(jar);
 	jar->set_position(godot::Vector2{(LEFT_BOUNDS + GRID_WIDTH * NODE_SIZE)/ 2.0f, (GRID_HEIGHT - 1 - INITIAL_JAR_DEPTH) * NODE_SIZE});
+	jar->set_z_index(100);
 
 	grid = std::vector<std::vector<int>>(GRID_HEIGHT, std::vector<int>(GRID_WIDTH, -1));
 

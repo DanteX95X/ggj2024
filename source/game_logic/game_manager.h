@@ -71,7 +71,7 @@ private:
 	godot::Ref<godot::PackedScene> jarScene;
 
 	const float LEFT_BOUNDS = 100.0f;
-	const float TOP_BOUNDS = -100.0f;
+	const float TOP_BOUNDS = -36.0f;
 	const float NODE_SIZE = 32.0f;
 	const float INITIAL_ACCELERATION = 0.5f;
 	const float ACCELERATION_INCREMENT = 0.25f;

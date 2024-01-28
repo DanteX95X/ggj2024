@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1tb5kx77w5qh"]
+[gd_scene load_steps=7 format=3 uid="uid://d1tb5kx77w5qh"]
 
 [ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_6lpw5"]
 [ext_resource type="LabelSettings" uid="uid://e63krhxxbjd6" path="res://fonts/labels.tres" id="1_cvb28"]
 [ext_resource type="PackedScene" uid="uid://dtjrgpaniqqfh" path="res://scenes/JarBlock.tscn" id="2_1344d"]
 [ext_resource type="PackedScene" uid="uid://bb4lut3ku3cmo" path="res://scenes/Jar.tscn" id="4_2gd0w"]
+[ext_resource type="Texture2D" uid="uid://d1wpgaiw6to5f" path="res://assets/hole-1991881_1280.png" id="5_oywfv"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_y5ca6"]
 specular_color = Color(0.74902, 0.12549, 0.188235, 1)
@@ -79,6 +80,13 @@ z_index = -100
 position = Vector2(42.5, 359)
 scale = Vector2(87, 719.5)
 texture = SubResource("CanvasTexture_y5ca6")
+
+[node name="Hole" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(0, 0, 0, 0.27451)
+z_index = -100
+position = Vector2(253.5, 716)
+scale = Vector2(0.500781, 0.1)
+texture = ExtResource("5_oywfv")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-2, 0)
