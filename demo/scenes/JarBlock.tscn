@@ -5,6 +5,7 @@
 [node name="JarBlock" type="JarBlock"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.211765)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_uoviv")
 flip_v = true

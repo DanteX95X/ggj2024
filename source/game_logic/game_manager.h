@@ -56,6 +56,8 @@ public:
 	void SetBlockScene(godot::Ref<godot::PackedScene> blockScene);
 	godot::Ref<godot::PackedScene> GetJarBlockScene() const;
 	void SetJarBlockScene(godot::Ref<godot::PackedScene> jarBlockScene);
+	godot::Ref<godot::PackedScene> GetJarScene() const;
+	void SetJarScene(godot::Ref<godot::PackedScene> jarScene);
 
 private:
 	Block* activeBlock = nullptr;
@@ -66,6 +68,7 @@ private:
 
 	godot::Ref<godot::PackedScene> blockScene;
 	godot::Ref<godot::PackedScene> jarBlockScene;
+	godot::Ref<godot::PackedScene> jarScene;
 
 	const float LEFT_BOUNDS = 100.0f;
 	const float TOP_BOUNDS = -100.0f;
@@ -79,6 +82,7 @@ private:
 	std::vector<std::vector<int>> grid{};
 	std::vector<BaseBlock*> blocks{};
 	std::vector<JarBlock*> jarBlocks{};
+	godot::Node2D* jar{};
 
 	std::map<int, std::vector<int>> incomingEdges{};
 	std::map<int, std::vector<int>> outgoingEdges{};

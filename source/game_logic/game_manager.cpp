@@ -18,6 +18,10 @@ void GameManager::_bind_methods()
 	godot::ClassDB::bind_method(godot::D_METHOD("SetJarBlockScene"), &GameManager::SetJarBlockScene);
 	godot::ClassDB::bind_method(godot::D_METHOD("GetJarBlockScene"), &GameManager::GetJarBlockScene);
 	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "JarBlockScene"), "SetJarBlockScene", "GetJarBlockScene");
+
+	godot::ClassDB::bind_method(godot::D_METHOD("SetJarScene"), &GameManager::SetJarScene);
+	godot::ClassDB::bind_method(godot::D_METHOD("GetJarScene"), &GameManager::GetJarScene);
+	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "JarScene"), "SetJarScene", "GetJarScene");
 }
 
 GameManager::GameManager()
@@ -31,6 +35,10 @@ void GameManager::_ready()
 	{
 		return;
 	}
+
+	jar = static_cast<godot::Node2D*>(jarScene->instantiate());
+	add_child(jar);
+	jar->set_position(godot::Vector2{(LEFT_BOUNDS + GRID_WIDTH * NODE_SIZE)/ 2.0f, (GRID_HEIGHT - 1 - INITIAL_JAR_DEPTH) * NODE_SIZE});
 
 	grid = std::vector<std::vector<int>>(GRID_HEIGHT, std::vector<int>(GRID_WIDTH, -1));
 
@@ -303,12 +311,14 @@ void GameManager::MoveJarDown()
 	}
 	grid[0] = std::vector<int>(GRID_WIDTH, -1);
 
+	godot::Vector2i displacement{0, 1};
 	for(auto& block : blocks)
 	{
-		godot::Vector2i displacement{0, 1};
 		block->SetPosition(block->GetPosition() + displacement);
 		block->translate(displacement * NODE_SIZE);
 	}
+
+	jar->translate(displacement * NODE_SIZE);
 
 	if(jarBlocks.front()->GetPosition().y == GRID_HEIGHT -1)
 	{
@@ -391,6 +401,16 @@ godot::Ref<godot::PackedScene> GameManager::GetJarBlockScene() const
 void GameManager::SetJarBlockScene(godot::Ref<godot::PackedScene> jarBlockScene)
 {
 	this->jarBlockScene = jarBlockScene;
+}
+
+godot::Ref<godot::PackedScene> GameManager::GetJarScene() const
+{
+	return jarScene;
+}
+
+void GameManager::SetJarScene(godot::Ref<godot::PackedScene> jarScene)
+{
+	this->jarScene = jarScene;
 }
 
 }

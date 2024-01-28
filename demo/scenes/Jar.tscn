@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bb4lut3ku3cmo"]
+
+[ext_resource type="Texture2D" uid="uid://3cdxcc1f60tl" path="res://assets/jar.png" id="1_m1qwc"]
+
+[node name="Jar" type="Sprite2D"]
+rotation = 3.14159
+scale = Vector2(0.35, 0.3)
+texture = ExtResource("1_m1qwc")
+offset = Vector2(-100, -550)
