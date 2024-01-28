@@ -29,7 +29,7 @@ void InputManager::_ready()
 
 void InputManager::_input(const godot::Ref<godot::InputEvent>& event)
 {
-	if(get_node<GameManager>("GameManager") == nullptr)
+	if(get_node_or_null("GameManager") == nullptr)
 	{
 		return;
 	}
