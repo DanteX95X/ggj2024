@@ -24,7 +24,8 @@ void GameManager::_bind_methods()
 	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "JarScene"), "SetJarScene", "GetJarScene");
 
 	ADD_SIGNAL(godot::MethodInfo("game_over",
-	                             godot::PropertyInfo(godot::Variant::STRING, "message")
+	                             godot::PropertyInfo(godot::Variant::STRING, "message"),
+	                             godot::PropertyInfo(godot::Variant::BOOL, "did_win")
 	                             ));
 	ADD_SIGNAL(godot::MethodInfo("total_energy_updated",
 	                             godot::PropertyInfo(godot::Variant::FLOAT, "total_energy")
@@ -114,11 +115,11 @@ void GameManager::SpawnNextBlock()
 	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, SPAWN_POINT, SHAPES[rng(twister)]));
 	if(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0)
 	{
-		std::string message = "GAME OVER: Blocks blocked";
+		std::string message = "GAME OVER: The jar went too far";
 		godot::UtilityFunctions::print(message.c_str());
 		activeBlock->queue_free();
 		activeBlock = nullptr;
-		GameOver(message);
+		GameOver(message, false);
 	}
 }
 
@@ -272,7 +273,7 @@ void GameManager::PushJar()
 	{
 		std::string message = "GAME OVER: Jar shattered";
 		godot::UtilityFunctions::print(message.c_str());
-		GameOver(message);
+		GameOver(message, false);
 	}
 
 	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
@@ -282,9 +283,9 @@ void GameManager::PushJar()
 	}
 }
 
-void GameManager::GameOver(std::string message)
+void GameManager::GameOver(std::string message, bool didWin)
 {
-	emit_signal("game_over", godot::String(message.c_str()));
+	emit_signal("game_over", godot::String(message.c_str()), didWin);
 	queue_free();
 }
 
@@ -377,7 +378,7 @@ void GameManager::MoveJarDown()
 	{
 		std::string message = "YOU WON: Jar pushed out";
 		godot::UtilityFunctions::print(message.c_str());
-		GameOver(message);
+		GameOver(message, true);
 	}
 }
 
