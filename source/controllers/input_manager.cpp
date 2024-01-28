@@ -29,6 +29,11 @@ void InputManager::_ready()
 
 void InputManager::_input(const godot::Ref<godot::InputEvent>& event)
 {
+	if(get_node<GameManager>("GameManager") == nullptr)
+	{
+		return;
+	}
+
 	if(event->is_action_pressed("right"))
 	{
 		gameManager->MoveBlockRight();
