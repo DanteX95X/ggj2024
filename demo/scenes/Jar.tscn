@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bb4lut3ku3cmo"]
+[gd_scene load_steps=4 format=3 uid="uid://bb4lut3ku3cmo"]
 
 [ext_resource type="Texture2D" uid="uid://3cdxcc1f60tl" path="res://assets/jar.png" id="1_m1qwc"]
+[ext_resource type="Script" path="res://scripts/shard_ejection.gd" id="2_ntdv0"]
+[ext_resource type="PackedScene" uid="uid://c7kndhel8p1xt" path="res://scenes/Shard.tscn" id="3_u6rbi"]
 
 [node name="Jar" type="Sprite2D"]
 rotation = 3.14159
 scale = Vector2(0.35, 0.3)
 texture = ExtResource("1_m1qwc")
 offset = Vector2(-100, -750)
+script = ExtResource("2_ntdv0")
+shardScene = ExtResource("3_u6rbi")
