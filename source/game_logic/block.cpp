@@ -27,13 +27,7 @@ float Block::ReceiveEnergy(float energy)
 {
 	BaseBlock::ReceiveEnergy(energy);
 	godot::UtilityFunctions::print("Block: ", blockIndex, ", energy: ", energy);
-//	for(auto& node : nodes)
-//	{
-//		godot::Color color = node->get_modulate();
-//		color.a = 0.1f;
-//		node->set_modulate(color);
-//	}
-	return energy;
+	return energy * (1 - ENERGY_LOSS);
 }
 
 void Block::InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i position, int blockIndex, float step)

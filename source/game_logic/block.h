@@ -43,6 +43,8 @@ public:
 	BlockSpan GetSpan() const;
 
 private:
+	const float ENERGY_LOSS = 0.1f;
+
 	std::mt19937 twister{std::random_device{}()};
 	godot::Ref<godot::PackedScene> nodeScene{};
 	std::vector<godot::Sprite2D*> nodes{};
