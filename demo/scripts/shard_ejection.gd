@@ -1,4 +1,4 @@
-extends Node2D
+extends Sprite2D
 class_name ShardEjection
 
 @export var shardScene: PackedScene
@@ -14,3 +14,4 @@ func eject_shards(message, didWin):
 			var shard: RigidBody2D = shardScene.instantiate()
 			add_child(shard)
 			shard.apply_impulse(Vector2(rng.randf_range(-1.0, 1.0), rng.randf_range(-1.0, 1.0)).normalized() * 1000)
+		texture = null
