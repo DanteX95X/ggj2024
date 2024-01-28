@@ -12,9 +12,6 @@
 [ext_resource type="LabelSettings" uid="uid://d1np4luo1i1s2" path="res://fonts/title.tres" id="9_6aqtf"]
 [ext_resource type="Script" path="res://scripts/set_value.gd" id="9_hmw7u"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_y5ca6"]
-specular_color = Color(0.74902, 0.12549, 0.188235, 1)
-
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rotc4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3elyo"]
@@ -22,6 +19,9 @@ size = Vector2(62, 1033)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_45o75"]
 size = Vector2(286, 993)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_y5ca6"]
+specular_color = Color(0.74902, 0.12549, 0.188235, 1)
 
 [node name="Root" type="Node"]
 
@@ -33,7 +33,22 @@ JarBlockScene = ExtResource("2_1344d")
 JarScene = ExtResource("4_2gd0w")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -2
+layer = 2
+
+[node name="Messages" type="Label" parent="CanvasLayer"]
+z_index = 100
+z_as_relative = false
+anchors_preset = -1
+offset_left = 97.0
+offset_top = 184.0
+offset_right = 578.0
+offset_bottom = 222.0
+grow_horizontal = 0
+grow_vertical = 2
+label_settings = ExtResource("4_sadr6")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_p5hjm")
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -49,36 +64,21 @@ offset_bottom = -31.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="Messages" type="Label" parent="CanvasLayer/Control"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = -275.0
-offset_top = -89.0
-offset_right = 79.0
-offset_bottom = -51.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "Let's push the jar out!"
-label_settings = ExtResource("4_sadr6")
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("5_p5hjm")
-
-[node name="RetryButton" type="Button" parent="CanvasLayer/Control/Messages"]
+[node name="RetryButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 100.0
-offset_top = 84.0
-offset_right = 235.0
-offset_bottom = 129.0
+offset_left = -175.0
+offset_top = -5.0
+offset_right = -40.0
+offset_bottom = 40.0
 text = "Retry"
 script = ExtResource("6_a4s0d")
 
-[node name="QuitButton" type="Button" parent="CanvasLayer/Control/Messages"]
+[node name="QuitButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 100.0
-offset_top = 144.0
-offset_right = 235.0
-offset_bottom = 189.0
+offset_left = -175.0
+offset_top = 55.0
+offset_right = -40.0
+offset_bottom = 100.0
 text = "Quit
 "
 script = ExtResource("7_rwrgr")
@@ -248,34 +248,6 @@ offset_bottom = -180.0
 text = "Created by one-man team: Dante"
 label_settings = ExtResource("1_cvb28")
 
-[node name="Background1" type="Sprite2D" parent="CanvasLayer"]
-modulate = Color(1, 0.172549, 0.141176, 0.423529)
-z_index = -100
-position = Vector2(640.75, 359.25)
-scale = Vector2(1282.5, 719.5)
-texture = SubResource("CanvasTexture_y5ca6")
-
-[node name="Background2" type="Sprite2D" parent="CanvasLayer"]
-modulate = Color(0, 0, 0, 0.423529)
-z_index = -100
-position = Vector2(844.5, 359.25)
-scale = Vector2(875, 719.5)
-texture = SubResource("CanvasTexture_y5ca6")
-
-[node name="Background3" type="Sprite2D" parent="CanvasLayer"]
-modulate = Color(0, 0, 0, 0.423529)
-z_index = -100
-position = Vector2(42.5, 359)
-scale = Vector2(87, 719.5)
-texture = SubResource("CanvasTexture_y5ca6")
-
-[node name="Hole" type="Sprite2D" parent="CanvasLayer"]
-modulate = Color(0, 0, 0, 0.27451)
-z_index = -100
-position = Vector2(253.5, 716)
-scale = Vector2(0.500781, 0.1)
-texture = ExtResource("5_oywfv")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-2, 0)
 offset = Vector2(640, 360)
@@ -298,13 +270,44 @@ gravity_scale = 0.0
 position = Vector2(597, 354.5)
 shape = SubResource("RectangleShape2D_45o75")
 
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = -2
+
+[node name="Background1" type="Sprite2D" parent="CanvasLayer2"]
+modulate = Color(1, 0.172549, 0.141176, 0.423529)
+z_index = -100
+position = Vector2(640.75, 359.25)
+scale = Vector2(1282.5, 719.5)
+texture = SubResource("CanvasTexture_y5ca6")
+
+[node name="Background2" type="Sprite2D" parent="CanvasLayer2"]
+modulate = Color(0, 0, 0, 0.423529)
+z_index = -100
+position = Vector2(844.5, 359.25)
+scale = Vector2(875, 719.5)
+texture = SubResource("CanvasTexture_y5ca6")
+
+[node name="Background3" type="Sprite2D" parent="CanvasLayer2"]
+modulate = Color(0, 0, 0, 0.423529)
+z_index = -100
+position = Vector2(42.5, 359)
+scale = Vector2(87, 719.5)
+texture = SubResource("CanvasTexture_y5ca6")
+
+[node name="Hole" type="Sprite2D" parent="CanvasLayer2"]
+modulate = Color(0, 0, 0, 0.27451)
+z_index = -100
+position = Vector2(253.5, 716)
+scale = Vector2(0.500781, 0.1)
+texture = ExtResource("5_oywfv")
+
 [connection signal="energy_threshold_updated" from="InputManager/GameManager" to="CanvasLayer/Control/TotalEnergyLabel/JarEnergyThreshold" method="_on_game_manager_value_signal"]
-[connection signal="game_over" from="InputManager/GameManager" to="CanvasLayer/Control/Messages" method="_on_game_manager_game_over"]
+[connection signal="game_over" from="InputManager/GameManager" to="CanvasLayer/Messages" method="_on_game_manager_game_over"]
 [connection signal="jar_block_energy_threshold_updated" from="InputManager/GameManager" to="CanvasLayer/Control/MaxEnergyLabel/JarBlockEnergyThreshold" method="_on_game_manager_value_signal"]
 [connection signal="jar_blocks_shattered" from="InputManager/GameManager" to="CanvasLayer/Control/JarPartsShatteredLabel/ShatteredParts" method="_on_game_manager_value_signal"]
 [connection signal="jar_shattering_threshold" from="InputManager/GameManager" to="CanvasLayer/Control/JarPartsShatteredLabel/ShatteringThreshold" method="_on_game_manager_value_signal"]
 [connection signal="max_energy_updated" from="InputManager/GameManager" to="CanvasLayer/Control/MaxEnergyLabel/MaxEnergyValue" method="_on_game_manager_value_signal"]
 [connection signal="total_energy_updated" from="InputManager/GameManager" to="CanvasLayer/Control/TotalEnergyLabel/TotalEnergyValue" method="_on_game_manager_value_signal"]
-[connection signal="pressed" from="CanvasLayer/Control/Messages/RetryButton" to="CanvasLayer/Control/Messages/RetryButton" method="_on_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/Messages/QuitButton" to="CanvasLayer/Control/Messages" method="_on_quit_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/Messages/QuitButton" to="CanvasLayer/Control/Messages/QuitButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/RetryButton" to="CanvasLayer/Control/RetryButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/QuitButton" to="CanvasLayer/Messages" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/QuitButton" to="CanvasLayer/Control/QuitButton" method="_on_pressed"]

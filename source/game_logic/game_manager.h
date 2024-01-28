@@ -89,7 +89,7 @@ private:
 
 	const int GRID_WIDTH = 10;
 	const int GRID_HEIGHT = 25;
-	const godot::Vector2i SPAWN_POINT{5, 5};
+	const godot::Vector2i SPAWN_POINT{5, 3};
 
 	std::mt19937 twister {std::random_device{}()};
 
