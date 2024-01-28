@@ -58,18 +58,18 @@ script = ExtResource("5_p5hjm")
 [node name="RetryButton" type="Button" parent="CanvasLayer/Control/Messages"]
 layout_mode = 0
 offset_left = 100.0
-offset_top = 48.0
-offset_right = 233.0
-offset_bottom = 93.0
+offset_top = 84.0
+offset_right = 235.0
+offset_bottom = 129.0
 text = "Retry"
 script = ExtResource("6_a4s0d")
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Control/Messages"]
 layout_mode = 0
 offset_left = 100.0
-offset_top = 110.0
-offset_right = 233.0
-offset_bottom = 155.0
+offset_top = 144.0
+offset_right = 235.0
+offset_bottom = 189.0
 text = "Quit
 "
 script = ExtResource("7_rwrgr")
@@ -77,10 +77,10 @@ script = ExtResource("7_rwrgr")
 [node name="TotalEnergyLabel" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = -717.0
-offset_top = -55.5
-offset_right = -582.0
-offset_bottom = -31.5
+offset_left = -700.0
+offset_top = -60.0
+offset_right = -565.0
+offset_bottom = -36.0
 grow_horizontal = 0
 grow_vertical = 2
 text = "Total Energy: "
@@ -88,16 +88,85 @@ label_settings = ExtResource("1_cvb28")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TotalEnergyValue" type="Label" parent="CanvasLayer/Control"]
+[node name="TotalEnergyValue" type="Label" parent="CanvasLayer/Control/TotalEnergyLabel"]
 layout_mode = 0
-offset_left = -578.0
-offset_top = -57.0
-offset_right = -456.0
-offset_bottom = -33.0
+offset_left = -10.0
+offset_top = 32.0
+offset_right = 112.0
+offset_bottom = 56.0
 text = "0.7000"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="JarEnergyThreshold" type="Label" parent="CanvasLayer/Control/TotalEnergyLabel"]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 32.0
+offset_right = 270.0
+offset_bottom = 56.0
+text = "0.7000"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Slash" type="Label" parent="CanvasLayer/Control/TotalEnergyLabel"]
+layout_mode = 0
+offset_left = 119.0
+offset_top = 32.0
+offset_right = 146.0
+offset_bottom = 56.0
+text = "/"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="MaxEnergyLabel" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -700.0
+offset_top = 40.0
+offset_right = -565.0
+offset_bottom = 64.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Max Energy:"
 label_settings = ExtResource("1_cvb28")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MaxEnergyValue" type="Label" parent="CanvasLayer/Control/MaxEnergyLabel"]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 32.0
+offset_right = 112.0
+offset_bottom = 56.0
+text = "0.7000"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="JarBlockEnergyThreshold" type="Label" parent="CanvasLayer/Control/MaxEnergyLabel"]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 32.0
+offset_right = 270.0
+offset_bottom = 56.0
+text = "0.7000"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Slash" type="Label" parent="CanvasLayer/Control/MaxEnergyLabel"]
+layout_mode = 0
+offset_left = 119.0
+offset_top = 32.0
+offset_right = 146.0
+offset_bottom = 56.0
+text = "/"
+label_settings = ExtResource("1_cvb28")
+vertical_alignment = 1
+text_overrun_behavior = 1
 
 [node name="Title" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 0
