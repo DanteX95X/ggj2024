@@ -1,13 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://d1tb5kx77w5qh"]
+[gd_scene load_steps=12 format=3 uid="uid://d1tb5kx77w5qh"]
 
 [ext_resource type="PackedScene" uid="uid://bu2fg2o50j4tv" path="res://scenes/Block.tscn" id="1_6lpw5"]
-[ext_resource type="LabelSettings" uid="uid://e63krhxxbjd6" path="res://fonts/labels.tres" id="1_cvb28"]
+[ext_resource type="LabelSettings" uid="uid://e63krhxxbjd6" path="res://fonts/info.tres" id="1_cvb28"]
 [ext_resource type="PackedScene" uid="uid://dtjrgpaniqqfh" path="res://scenes/JarBlock.tscn" id="2_1344d"]
 [ext_resource type="PackedScene" uid="uid://bb4lut3ku3cmo" path="res://scenes/Jar.tscn" id="4_2gd0w"]
+[ext_resource type="LabelSettings" uid="uid://codh74lxyrkfo" path="res://fonts/message.tres" id="4_sadr6"]
 [ext_resource type="Texture2D" uid="uid://d1wpgaiw6to5f" path="res://assets/hole-1991881_1280.png" id="5_oywfv"]
 [ext_resource type="Script" path="res://scripts/messages.gd" id="5_p5hjm"]
 [ext_resource type="Script" path="res://scripts/retry_button.gd" id="6_a4s0d"]
 [ext_resource type="Script" path="res://scripts/quit_button.gd" id="7_rwrgr"]
+[ext_resource type="LabelSettings" uid="uid://d1np4luo1i1s2" path="res://fonts/title.tres" id="9_6aqtf"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_y5ca6"]
 specular_color = Color(0.74902, 0.12549, 0.188235, 1)
@@ -41,32 +43,33 @@ grow_vertical = 2
 [node name="Messages" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = -168.0
-offset_top = -186.0
-offset_right = -60.0
-offset_bottom = -163.0
+offset_left = -275.0
+offset_top = -89.0
+offset_right = 79.0
+offset_bottom = -51.0
 grow_horizontal = 0
 grow_vertical = 2
-label_settings = ExtResource("1_cvb28")
+text = "Let's push the jar out!"
+label_settings = ExtResource("4_sadr6")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_p5hjm")
 
 [node name="RetryButton" type="Button" parent="CanvasLayer/Control/Messages"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 53.0
-offset_right = 141.0
-offset_bottom = 98.0
+offset_left = 100.0
+offset_top = 48.0
+offset_right = 233.0
+offset_bottom = 93.0
 text = "Retry"
 script = ExtResource("6_a4s0d")
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Control/Messages"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 115.0
-offset_right = 141.0
-offset_bottom = 160.0
+offset_left = 100.0
+offset_top = 110.0
+offset_right = 233.0
+offset_bottom = 155.0
 text = "Quit
 "
 script = ExtResource("7_rwrgr")
@@ -74,10 +77,10 @@ script = ExtResource("7_rwrgr")
 [node name="TotalEnergyLabel" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = -704.0
-offset_top = -104.0
-offset_right = -596.0
-offset_bottom = -81.0
+offset_left = -717.0
+offset_top = -55.5
+offset_right = -582.0
+offset_bottom = -31.5
 grow_horizontal = 0
 grow_vertical = 2
 text = "Total Energy: "
@@ -87,14 +90,32 @@ vertical_alignment = 1
 
 [node name="TotalEnergyValue" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = -592.0
-offset_top = -106.0
-offset_right = -470.0
-offset_bottom = -83.0
+offset_left = -578.0
+offset_top = -57.0
+offset_right = -456.0
+offset_bottom = -33.0
 text = "0.7000"
 label_settings = ExtResource("1_cvb28")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = -580.0
+offset_top = -307.0
+offset_right = -8.0
+offset_bottom = -248.0
+text = "The Jarring Experience"
+label_settings = ExtResource("9_6aqtf")
+
+[node name="Credits" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = -515.0
+offset_top = -239.0
+offset_right = 57.0
+offset_bottom = -180.0
+text = "Created by one-man team: Dante"
+label_settings = ExtResource("1_cvb28")
 
 [node name="Background1" type="Sprite2D" parent="CanvasLayer"]
 modulate = Color(1, 0.172549, 0.141176, 0.423529)
