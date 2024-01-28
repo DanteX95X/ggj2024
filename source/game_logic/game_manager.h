@@ -68,6 +68,7 @@ private:
 
 	float timeCounter = 0.0f;
 
+	int previousShatteredBlocks = 0;
 
 	godot::Ref<godot::PackedScene> blockScene;
 	godot::Ref<godot::PackedScene> jarBlockScene;

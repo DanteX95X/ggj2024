@@ -48,6 +48,11 @@ void GameManager::_bind_methods()
 	ADD_SIGNAL(godot::MethodInfo("jar_shattering_threshold",
 	                             godot::PropertyInfo(godot::Variant::INT, "jar_shattering_threshold")
 	                             ));
+	ADD_SIGNAL(godot::MethodInfo("block_shattered"));
+	ADD_SIGNAL(godot::MethodInfo("jar_moves_up"));
+	ADD_SIGNAL(godot::MethodInfo("jar_collision",
+	                             godot::PropertyInfo(godot::Variant::BOOL, "is_heavy")
+	                             ));
 }
 
 GameManager::GameManager()
@@ -275,11 +280,21 @@ void GameManager::PushJar()
 		godot::UtilityFunctions::print(message.c_str());
 		GameOver(message, false);
 	}
+	else if(shatteredJarBlocks > previousShatteredBlocks)
+	{
+		previousShatteredBlocks = shatteredJarBlocks;
+		emit_signal("block_shattered");
+	}
 
 	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
 	{
+		emit_signal("jar_collision", true);
 		godot::UtilityFunctions::print("jar pushed, energy: ", totalJarEnergy);
 		MoveJarDown();
+	}
+	else
+	{
+		emit_signal("jar_collision", false);
 	}
 }
 
@@ -385,6 +400,8 @@ void GameManager::MoveJarDown()
 //TODO: Reduce copy-paste
 void GameManager::MoveJarUp()
 {
+	emit_signal("jar_moves_up");
+
 	for(int y = 0; y < GRID_HEIGHT - 1; ++y)
 	{
 		grid[y] = grid[y + 1];

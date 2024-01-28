@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bb4lut3ku3cmo"]
+[gd_scene load_steps=9 format=3 uid="uid://bb4lut3ku3cmo"]
 
 [ext_resource type="Texture2D" uid="uid://baoe6j4er1fcr" path="res://assets/jar_visible.png" id="1_rguap"]
 [ext_resource type="Script" path="res://scripts/shard_ejection.gd" id="2_ntdv0"]
 [ext_resource type="PackedScene" uid="uid://c7kndhel8p1xt" path="res://scenes/Shard.tscn" id="3_u6rbi"]
+[ext_resource type="AudioStream" uid="uid://86pey52wbot3" path="res://sounds/jar_shattered.wav" id="4_owlyi"]
+[ext_resource type="AudioStream" uid="uid://vqo1jqy3qd23" path="res://sounds/block_shatter.ogg" id="5_lpva0"]
+[ext_resource type="AudioStream" uid="uid://lef4cexxbe3f" path="res://sounds/glass_light_collision.wav" id="6_jlchc"]
+[ext_resource type="AudioStream" uid="uid://bc8tkatxycnjp" path="res://sounds/jar_collision.wav" id="7_dt6b2"]
+[ext_resource type="AudioStream" uid="uid://cjgp15lmbdc34" path="res://sounds/jar_moves_up.wav" id="8_rybw5"]
 
 [node name="Jar" type="Sprite2D"]
 position = Vector2(0, 2)
@@ -12,3 +17,18 @@ texture = ExtResource("1_rguap")
 offset = Vector2(-35, -225)
 script = ExtResource("2_ntdv0")
 shardScene = ExtResource("3_u6rbi")
+
+[node name="AudioShatteredJar" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_owlyi")
+
+[node name="AudioShatteredBlock" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_lpva0")
+
+[node name="AudioLightCollision" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_jlchc")
+
+[node name="AudioHeavyCollision" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_dt6b2")
+
+[node name="AudioJarMovesUp" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_rybw5")

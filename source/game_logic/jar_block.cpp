@@ -22,13 +22,14 @@ float JarBlock::ReceiveEnergy(float energy)
 	if(!isShattered)
 	{
 		totalEnergy += energy;
+		return totalEnergy;
 	}
 	else
 	{
 		shouldBlink = false;
 	}
 
-	return totalEnergy;
+	return 0;
 }
 
 float JarBlock::ProcessEnergy()
