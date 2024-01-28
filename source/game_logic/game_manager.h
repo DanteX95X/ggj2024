@@ -80,7 +80,7 @@ private:
 	const float INITIAL_ACCELERATION = 1.0f;
 	const float ACCELERATION_INCREMENT = 0.5f;
 	const float JAR_ENERGY_THRESHOLD = 15.0f;
-	const int INITIAL_JAR_DEPTH = 1;//9;
+	const int INITIAL_JAR_DEPTH = 9;
 	const int JAR_SHATTER_THRESHOLD =3;
 	const float JAR_MOVEMENT_TIME = 10.0f;
 

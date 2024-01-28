@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bh7t5q5w3v6j1"]
+
+[ext_resource type="AudioStream" uid="uid://g4yrkc8ddmki" path="res://sounds/Cloudjumper - Pushing Buttons.mp3" id="1_y8jjm"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_y8jjm")
+volume_db = 3.0
+autoplay = true
