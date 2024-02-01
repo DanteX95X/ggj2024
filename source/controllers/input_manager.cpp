@@ -7,9 +7,16 @@
 namespace ggj
 {
 
+const std::string_view ON_GAME_OVER_METHOD{"OnGameOver"};
+const std::string_view MESSAGE_PARAMETER{"message"};
+const std::string_view DID_WIN_PARAMETER{"didWin"};
+
 void InputManager::_bind_methods()
 {
-
+	godot::ClassDB::bind_method(godot::D_METHOD(ON_GAME_OVER_METHOD.data(),
+	                                            MESSAGE_PARAMETER.data(),
+	                                            DID_WIN_PARAMETER.data()),
+	                            &InputManager::OnGameOver);
 }
 
 InputManager::InputManager()
@@ -25,31 +32,37 @@ void InputManager::_ready()
 	}
 
 	gameManager =  godot::Node::get_node<GameManager>(godot::NodePath("GameManager"));
+	gameManager->connect("game_over", godot::Callable{this, ON_GAME_OVER_METHOD.data()});
 }
 
 void InputManager::_input(const godot::Ref<godot::InputEvent>& event)
 {
-	if(get_node_or_null("GameManager") == nullptr)
+	if(gameManager == nullptr)
 	{
 		return;
 	}
 
-	if(event->is_action_pressed("right"))
+	if(event->is_action_pressed(RIGHT_ACTION.data()))
 	{
 		gameManager->MoveBlockRight();
 	}
-	else if(event->is_action_pressed("left"))
+	else if(event->is_action_pressed(LEFT_ACTION.data()))
 	{
 		gameManager->MoveBlockLeft();
 	}
-	else if(event->is_action_pressed("rotate"))
+	else if(event->is_action_pressed(ROTATE_ACTION.data()))
 	{
 		gameManager->RotateBlock();
 	}
-	else if(event->is_action_pressed("accelerate"))
+	else if(event->is_action_pressed(ACCELERATE_ACTION.data()))
 	{
 		gameManager->Accelerate();
 	}
+}
+
+void InputManager::OnGameOver(godot::String message, bool didWin)
+{
+	gameManager = nullptr;
 }
 
 }
