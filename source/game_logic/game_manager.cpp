@@ -370,14 +370,7 @@ void GameManager::MoveJarDown()
 	}
 	grid[0] = std::vector<int>(GRID_WIDTH, -1);
 
-	godot::Vector2i displacement{0, 1};
-	for(auto& block : blocks)
-	{
-		block->SetPosition(block->GetPosition() + displacement);
-		block->translate(displacement * NODE_SIZE);
-	}
-
-	jar->translate(displacement * NODE_SIZE);
+	MoveJar(godot::Vector2i{0, 1});
 
 	if(jarBlocks.front()->GetPosition().y == GRID_HEIGHT -1)
 	{
@@ -387,7 +380,6 @@ void GameManager::MoveJarDown()
 	}
 }
 
-//TODO: Reduce copy-paste
 void GameManager::MoveJarUp()
 {
 	emit_signal(JAR_MOVES_UP_SIGNAL.data());
@@ -398,7 +390,11 @@ void GameManager::MoveJarUp()
 	}
 	grid[GRID_HEIGHT - 1] = std::vector<int>(GRID_WIDTH, -1);
 
-	godot::Vector2i displacement{0, -1};
+	MoveJar(godot::Vector2i{0, -1});
+}
+
+void GameManager::MoveJar(godot::Vector2i displacement)
+{
 	for(auto& block : blocks)
 	{
 		block->SetPosition(block->GetPosition() + displacement);

@@ -44,6 +44,7 @@ public:
 
 	void MoveJarDown();
 	void MoveJarUp();
+	void MoveJar(godot::Vector2i displacement);
 
 	void MoveBlockLeft();
 	void MoveBlockRight();
