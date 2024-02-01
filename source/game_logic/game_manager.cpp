@@ -120,7 +120,6 @@ void GameManager::SpawnNextBlock()
 	if(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0)
 	{
 		std::string message = "GAME OVER: The jar went too far";
-		godot::UtilityFunctions::print(message.c_str());
 		activeBlock->queue_free();
 		activeBlock = nullptr;
 		GameOver(message, false);
@@ -235,8 +234,6 @@ void GameManager::TransferEnergy()
 		const auto& outgoing = outgoingEdges[currentBlockIndex];
 		energy /= outgoing.size();
 
-		godot::UtilityFunctions::print("frontier top: ", currentBlockIndex);
-
 		for(const auto& neighbourIndex : outgoing)
 		{
 			frontier.push_back({neighbourIndex, energy});
@@ -267,7 +264,6 @@ void GameManager::PushJar()
 	if(shatteredJarBlocks >= JAR_SHATTER_THRESHOLD)
 	{
 		std::string message = "GAME OVER: Jar shattered";
-		godot::UtilityFunctions::print(message.c_str());
 		GameOver(message, false);
 	}
 	else if(shatteredJarBlocks > previousShatteredBlocks)
@@ -279,7 +275,6 @@ void GameManager::PushJar()
 	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
 	{
 		emit_signal(JAR_COLLISION_SIGNAL.data(), true);
-		godot::UtilityFunctions::print("jar pushed, energy: ", totalJarEnergy);
 		MoveJarDown();
 	}
 	else
@@ -341,25 +336,6 @@ void GameManager::BakeBlockOnTheGrid(BaseBlock* block)
 		godot::Vector2i gridPosition = position + block->GetPosition();
 		grid[gridPosition.y][gridPosition.x] = block->GetIndex();
 	}
-
-	godot::UtilityFunctions::print("Grid: ");
-	for(const auto& row : grid)
-	{
-		godot::String serializedRow = "";
-		for(const auto& cell : row)
-		{
-			serializedRow += " ";
-			if(cell != -1)
-			{
-				serializedRow += std::to_string(cell).c_str();
-			}
-			else
-			{
-				serializedRow += "X";
-			}
-		}
-		godot::UtilityFunctions::print(serializedRow);
-	}
 }
 
 void GameManager::MoveJarDown()
@@ -375,7 +351,6 @@ void GameManager::MoveJarDown()
 	if(jarBlocks.front()->GetPosition().y == GRID_HEIGHT -1)
 	{
 		std::string message = "YOU WON: Jar pushed out";
-		godot::UtilityFunctions::print(message.c_str());
 		GameOver(message, true);
 	}
 }

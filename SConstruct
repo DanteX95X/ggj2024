@@ -19,8 +19,6 @@ sources.extend(Glob("source/test/*.cpp"))
 sources.extend(Glob("source/game_logic/*.cpp"))
 sources.extend(Glob("source/controllers/*.cpp"))
 
-print("sources " + str(sources))
-
 if env["platform"] == "macos":
     library = env.SharedLibrary(
         "demo/bin/libgdexample.{}.{}.framework/libgdexample.{}.{}".format(

@@ -26,7 +26,6 @@ void Block::_ready()
 float Block::ReceiveEnergy(float energy)
 {
 	BaseBlock::ReceiveEnergy(energy);
-	godot::UtilityFunctions::print("Block: ", blockIndex, ", energy: ", energy);
 	return energy * (1 - ENERGY_LOSS);
 }
 
@@ -51,7 +50,6 @@ void Block::InitializeBlock(std::vector<godot::Vector2i> shape, godot::Vector2i 
 
 void Block::Rotate(float step)
 {
-	godot::UtilityFunctions::print("rotating");
 	for(std::size_t index = 0; index < shape.size(); ++index)
 	{
 		auto& position = shape[index];
@@ -80,7 +78,6 @@ void Block::UpdateSpan()
 		span.bottom = godot::Math::max(position.y, span.bottom);
 	}
 
-	godot::UtilityFunctions::print("l: ", span.left, ", r: ", span.right, ", t: ", span.top, ", b: ", span.bottom);
 	this->span = span;
 }
 

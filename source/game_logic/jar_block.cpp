@@ -34,11 +34,8 @@ float JarBlock::ReceiveEnergy(float energy)
 
 float JarBlock::ProcessEnergy()
 {
-	godot::UtilityFunctions::print("JarBlock: ", blockIndex, " totalEnergy: ", totalEnergy);
-
 	if(totalEnergy > ENERGY_THRESHOLD)
 	{
-		godot::UtilityFunctions::print("JarBlock: ", blockIndex, " destroyed");
 		isShattered = true;
 		get_node<godot::Node2D>(godot::NodePath("Sprite2D"))->set_visible(true);
 	}
