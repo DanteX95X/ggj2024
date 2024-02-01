@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://bm8ba8kg2jtao" path="res://sounds/lose.wav" id="11_m4f72"]
 
 [node name="Jar" type="Sprite2D"]
+z_index = -2
 position = Vector2(0, 2)
 rotation = 3.14159
 scale = Vector2(1, 0.857)

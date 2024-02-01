@@ -75,7 +75,6 @@ void GameManager::_ready()
 	call_deferred("add_sibling", jar);
 	jar->set_position(godot::Vector2{(LEFT_BOUNDS + GRID_WIDTH * NODE_SIZE)/ 2.0f,
 	                                 (GRID_HEIGHT - 1 - INITIAL_JAR_DEPTH) * NODE_SIZE});
-	jar->set_z_index(-2); //TODO: Get rid of this
 
 	grid = std::vector<std::vector<int>>(GRID_HEIGHT, std::vector<int>(GRID_WIDTH, -1));
 
