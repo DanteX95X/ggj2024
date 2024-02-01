@@ -17,6 +17,10 @@ void InputManager::_bind_methods()
 	                                            MESSAGE_PARAMETER.data(),
 	                                            DID_WIN_PARAMETER.data()),
 	                            &InputManager::OnGameOver);
+
+	godot::ClassDB::bind_method(godot::D_METHOD("SetGameManagerPath"), &InputManager::SetGameManagerPath);
+	godot::ClassDB::bind_method(godot::D_METHOD("GetGameManagerPath"), &InputManager::GetGameManagerPath);
+	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::NODE_PATH, "GameManagerPath"), "SetGameManagerPath", "GetGameManagerPath");
 }
 
 InputManager::InputManager()
@@ -31,7 +35,7 @@ void InputManager::_ready()
 		return;
 	}
 
-	gameManager =  godot::Node::get_node<GameManager>(godot::NodePath("GameManager"));
+	gameManager = get_node<GameManager>(gameManagerPath);
 	gameManager->connect("game_over", godot::Callable{this, ON_GAME_OVER_METHOD.data()});
 }
 
@@ -63,6 +67,16 @@ void InputManager::_input(const godot::Ref<godot::InputEvent>& event)
 void InputManager::OnGameOver(godot::String message, bool didWin)
 {
 	gameManager = nullptr;
+}
+
+godot::NodePath InputManager::GetGameManagerPath() const
+{
+	return gameManagerPath;
+}
+
+void InputManager::SetGameManagerPath(godot::NodePath gameManagerPath)
+{
+	this->gameManagerPath = gameManagerPath;
 }
 
 }

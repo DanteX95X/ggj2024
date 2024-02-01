@@ -26,6 +26,7 @@ specular_color = Color(0.74902, 0.12549, 0.188235, 1)
 [node name="Root" type="Node"]
 
 [node name="InputManager" type="InputManager" parent="."]
+GameManagerPath = NodePath("GameManager")
 
 [node name="GameManager" type="GameManager" parent="InputManager"]
 BlockScene = ExtResource("1_6lpw5")

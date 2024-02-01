@@ -20,8 +20,12 @@ public:
 
 	void OnGameOver(godot::String message, bool didWin);
 
+	godot::NodePath GetGameManagerPath() const;
+	void SetGameManagerPath(godot::NodePath gameManagerPath);
+
 private:
-	GameManager* gameManager = nullptr;
+	godot::NodePath gameManagerPath{};
+	GameManager* gameManager{};
 
 	inline static const std::string_view LEFT_ACTION{"left"};
 	inline static const std::string_view RIGHT_ACTION{"right"};
