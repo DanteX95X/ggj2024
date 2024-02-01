@@ -116,7 +116,7 @@ void GameManager::SpawnNextBlock()
 {
 	ResetPhysics();
 
-	std::uniform_int_distribution<uint> rng{0, static_cast<uint>(SHAPES.size()) - 1};
+	std::uniform_int_distribution<unsigned int> rng{0, static_cast<unsigned int>(SHAPES.size()) - 1};
 	activeBlock = static_cast<Block*>(SpawnBlockAt(blockScene, SPAWN_POINT, SHAPES[rng(twister)]));
 	if(GetAllCollidersInDirection(activeBlock, godot::Vector2i{0,0}, true).size() > 0)
 	{
