@@ -60,6 +60,18 @@ public:
 	godot::Ref<godot::PackedScene> GetJarScene() const;
 	void SetJarScene(godot::Ref<godot::PackedScene> jarScene);
 
+	inline static const std::string_view GAME_OVER_SIGNAL{"game_over"};
+	inline static const std::string_view TOTAL_ENERGY_UPDATED_SIGNAL{"total_energy_updated"};
+	inline static const std::string_view ENERGY_THRESHOLD_UPDATED_SIGNAL{"energy_threshold_updated"};
+	inline static const std::string_view MAX_ENERGY_UPDATED_SIGNAL{"max_energy_updated"};
+	inline static const std::string_view JAR_BLOCK_ENERGY_THRESHOLD_UPDATED_SIGNAL{"jar_block_energy_threshold_updated"};
+	inline static const std::string_view CURRENT_ENERGY_UPDATED_SIGNAL{"current_energy_updated"};
+	inline static const std::string_view JAR_BLOCKS_SHATTERED_SIGNAL{"jar_blocks_shattered"};
+	inline static const std::string_view JAR_SHATTERING_THRESHOLD_SIGNAL{"jar_shattering_threshold"};
+	inline static const std::string_view BLOCK_SHATTERED_SIGNAL{"block_shattered"};
+	inline static const std::string_view JAR_MOVES_UP_SIGNAL{"jar_moves_up"};
+	inline static const std::string_view JAR_COLLISION_SIGNAL{"jar_collision"};
+
 private:
 	Block* activeBlock = nullptr;
 	float previousVelocity = 0;
@@ -74,16 +86,6 @@ private:
 	godot::Ref<godot::PackedScene> jarBlockScene;
 	godot::Ref<godot::PackedScene> jarScene;
 
-	const float LEFT_BOUNDS = 100.0f;
-	const float TOP_BOUNDS = -36.0f;
-	const float NODE_SIZE = 32.0f;
-	const float INITIAL_ACCELERATION = 1.0f;
-	const float ACCELERATION_INCREMENT = 0.5f;
-	const float JAR_ENERGY_THRESHOLD = 15.0f;
-	const int INITIAL_JAR_DEPTH = 9;
-	const int JAR_SHATTER_THRESHOLD =3;
-	const float JAR_MOVEMENT_TIME = 10.0f;
-
 	std::vector<std::vector<int>> grid{};
 	std::vector<BaseBlock*> blocks{};
 	std::vector<JarBlock*> jarBlocks{};
@@ -92,11 +94,11 @@ private:
 	std::map<int, std::vector<int>> incomingEdges{};
 	std::map<int, std::vector<int>> outgoingEdges{};
 
+	std::mt19937 twister {std::random_device{}()};
+
 	const int GRID_WIDTH = 10;
 	const int GRID_HEIGHT = 25;
 	const godot::Vector2i SPAWN_POINT{5, 3};
-
-	std::mt19937 twister {std::random_device{}()};
 
 	const std::vector<std::vector<godot::Vector2i>> SHAPES =
 	{
@@ -108,6 +110,16 @@ private:
 	    {{0, 0}, {1, 0}, {0, 1}, {-1, 1} },
 	    {{0, 0}, {-1, 0}, {0, 1}, {1, 1} },
 	};
+
+	const float LEFT_BOUNDS = 100.0f;
+	const float TOP_BOUNDS = -36.0f;
+	const float NODE_SIZE = 32.0f;
+	const float INITIAL_ACCELERATION = 1.0f;
+	const float ACCELERATION_INCREMENT = 0.5f;
+	const float JAR_ENERGY_THRESHOLD = 15.0f;
+	const int INITIAL_JAR_DEPTH = 9;
+	const int JAR_SHATTER_THRESHOLD =3;
+	const float JAR_MOVEMENT_TIME = 10.0f;
 };
 
 }

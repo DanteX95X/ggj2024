@@ -36,7 +36,7 @@ void InputManager::_ready()
 	}
 
 	gameManager = get_node<GameManager>(gameManagerPath);
-	gameManager->connect("game_over", godot::Callable{this, ON_GAME_OVER_METHOD.data()});
+	gameManager->connect(GameManager::GAME_OVER_SIGNAL.data(), godot::Callable{this, ON_GAME_OVER_METHOD.data()});
 }
 
 void InputManager::_input(const godot::Ref<godot::InputEvent>& event)

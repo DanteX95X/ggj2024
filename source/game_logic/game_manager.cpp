@@ -23,34 +23,34 @@ void GameManager::_bind_methods()
 	godot::ClassDB::bind_method(godot::D_METHOD("GetJarScene"), &GameManager::GetJarScene);
 	ADD_PROPERTY(godot::PropertyInfo(godot::Variant::OBJECT, "JarScene"), "SetJarScene", "GetJarScene");
 
-	ADD_SIGNAL(godot::MethodInfo("game_over",
+	ADD_SIGNAL(godot::MethodInfo(GAME_OVER_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::STRING, "message"),
 	                             godot::PropertyInfo(godot::Variant::BOOL, "did_win")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("total_energy_updated",
+	ADD_SIGNAL(godot::MethodInfo(TOTAL_ENERGY_UPDATED_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::FLOAT, "total_energy")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("energy_threshold_updated",
+	ADD_SIGNAL(godot::MethodInfo(ENERGY_THRESHOLD_UPDATED_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::FLOAT, "energy_threshold")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("max_energy_updated",
+	ADD_SIGNAL(godot::MethodInfo(MAX_ENERGY_UPDATED_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::FLOAT, "max_energy")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("jar_block_energy_threshold_updated",
+	ADD_SIGNAL(godot::MethodInfo(JAR_BLOCK_ENERGY_THRESHOLD_UPDATED_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::FLOAT, "jar_block_energy_threshold")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("current_energy_updated",
+	ADD_SIGNAL(godot::MethodInfo(CURRENT_ENERGY_UPDATED_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::FLOAT, "current_energy")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("jar_blocks_shattered",
+	ADD_SIGNAL(godot::MethodInfo(JAR_BLOCKS_SHATTERED_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::INT, "jar_blocks_shattered")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("jar_shattering_threshold",
+	ADD_SIGNAL(godot::MethodInfo(JAR_SHATTERING_THRESHOLD_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::INT, "jar_shattering_threshold")
 	                             ));
-	ADD_SIGNAL(godot::MethodInfo("block_shattered"));
-	ADD_SIGNAL(godot::MethodInfo("jar_moves_up"));
-	ADD_SIGNAL(godot::MethodInfo("jar_collision",
+	ADD_SIGNAL(godot::MethodInfo(BLOCK_SHATTERED_SIGNAL.data()));
+	ADD_SIGNAL(godot::MethodInfo(JAR_MOVES_UP_SIGNAL.data()));
+	ADD_SIGNAL(godot::MethodInfo(JAR_COLLISION_SIGNAL.data(),
 	                             godot::PropertyInfo(godot::Variant::BOOL, "is_heavy")
 	                             ));
 }
@@ -67,18 +67,18 @@ void GameManager::_ready()
 		return;
 	}
 
-	emit_signal("energy_threshold_updated", JAR_ENERGY_THRESHOLD);
-	emit_signal("jar_block_energy_threshold_updated", JarBlock::ENERGY_THRESHOLD);
-	emit_signal("jar_shattering_threshold", JAR_SHATTER_THRESHOLD);
+	emit_signal(ENERGY_THRESHOLD_UPDATED_SIGNAL.data(), JAR_ENERGY_THRESHOLD);
+	emit_signal(JAR_BLOCK_ENERGY_THRESHOLD_UPDATED_SIGNAL.data(), JarBlock::ENERGY_THRESHOLD);
+	emit_signal(JAR_SHATTERING_THRESHOLD_SIGNAL.data(), JAR_SHATTER_THRESHOLD);
 
 	jar = static_cast<godot::Node2D*>(jarScene->instantiate());
 	call_deferred("add_sibling", jar);
-	jar->set_position(godot::Vector2{(LEFT_BOUNDS + GRID_WIDTH * NODE_SIZE)/ 2.0f, (GRID_HEIGHT - 1 - INITIAL_JAR_DEPTH) * NODE_SIZE});
-	jar->set_z_index(-2);
+	jar->set_position(godot::Vector2{(LEFT_BOUNDS + GRID_WIDTH * NODE_SIZE)/ 2.0f,
+	                                 (GRID_HEIGHT - 1 - INITIAL_JAR_DEPTH) * NODE_SIZE});
+	jar->set_z_index(-2); //TODO: Get rid of this
 
 	grid = std::vector<std::vector<int>>(GRID_HEIGHT, std::vector<int>(GRID_WIDTH, -1));
 
-	//Spawn jar blocks
 	for(int x = 0; x < GRID_WIDTH; ++x)
 	{
 		JarBlock* jarBlock = static_cast<JarBlock*>(SpawnBlockAt(jarBlockScene,
@@ -147,7 +147,7 @@ void GameManager::CalculateBlockMotion(double delta)
 	accumulatedDistance += displacement;
 	previousVelocity = velocity;
 
-	emit_signal("current_energy_updated", velocity * velocity);
+	emit_signal(CURRENT_ENERGY_UPDATED_SIGNAL.data(), velocity * velocity);
 }
 
 void GameManager::ProcessBlockFall()
@@ -270,9 +270,9 @@ void GameManager::PushJar()
 		}
 	}
 
-	emit_signal("total_energy_updated", totalJarEnergy);
-	emit_signal("max_energy_updated", maxEnergy);
-	emit_signal("jar_blocks_shattered", shatteredJarBlocks);
+	emit_signal(TOTAL_ENERGY_UPDATED_SIGNAL.data(), totalJarEnergy);
+	emit_signal(MAX_ENERGY_UPDATED_SIGNAL.data(), maxEnergy);
+	emit_signal(JAR_BLOCKS_SHATTERED_SIGNAL.data(), shatteredJarBlocks);
 
 	if(shatteredJarBlocks >= JAR_SHATTER_THRESHOLD)
 	{
@@ -283,24 +283,24 @@ void GameManager::PushJar()
 	else if(shatteredJarBlocks > previousShatteredBlocks)
 	{
 		previousShatteredBlocks = shatteredJarBlocks;
-		emit_signal("block_shattered");
+		emit_signal(BLOCK_SHATTERED_SIGNAL.data());
 	}
 
 	if(totalJarEnergy > JAR_ENERGY_THRESHOLD)
 	{
-		emit_signal("jar_collision", true);
+		emit_signal(JAR_COLLISION_SIGNAL.data(), true);
 		godot::UtilityFunctions::print("jar pushed, energy: ", totalJarEnergy);
 		MoveJarDown();
 	}
 	else
 	{
-		emit_signal("jar_collision", false);
+		emit_signal(JAR_COLLISION_SIGNAL.data(), false);
 	}
 }
 
 void GameManager::GameOver(std::string message, bool didWin)
 {
-	emit_signal("game_over", godot::String(message.c_str()), didWin);
+	emit_signal(GAME_OVER_SIGNAL.data(), godot::String(message.c_str()), didWin);
 	queue_free();
 }
 
@@ -400,7 +400,7 @@ void GameManager::MoveJarDown()
 //TODO: Reduce copy-paste
 void GameManager::MoveJarUp()
 {
-	emit_signal("jar_moves_up");
+	emit_signal(JAR_MOVES_UP_SIGNAL.data());
 
 	for(int y = 0; y < GRID_HEIGHT - 1; ++y)
 	{
