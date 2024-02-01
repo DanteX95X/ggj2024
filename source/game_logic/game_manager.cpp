@@ -153,14 +153,13 @@ void GameManager::ProcessBlockFall()
 {
 	if(accumulatedDistance > 1)
 	{
-		CheckBlockCollision(); //TODO: Consider not duplicating collisions.
+		CheckBlockCollision();
 		accumulatedDistance -= 1;
 
 		if(activeBlock != nullptr)
 		{
 			activeBlock->translate(godot::Vector2{0, 1} * NODE_SIZE);
 			activeBlock->SetPosition(activeBlock->GetPosition() + godot::Vector2i{0, 1});
-			CheckBlockCollision();
 		}
 	}
 }
@@ -196,18 +195,10 @@ std::vector<int> GameManager::GetAllCollidersInDirection(BaseBlock* block, godot
 
 void GameManager::CheckBlockCollision()
 {
-	BlockSpan spanOnGrid = GetBlockSpanInGridCoordinates();
-	if(spanOnGrid.bottom >= GRID_HEIGHT - 1)
+	std::vector<int> hitBlocks = GetAllCollidersInDirection(activeBlock, godot::Vector2i{0, 1});
+	if(hitBlocks.size() > 0)
 	{
 		HandleBlockCollision();
-	}
-	else
-	{
-		std::vector<int> hitBlocks = GetAllCollidersInDirection(activeBlock, godot::Vector2i{0, 1});
-		if(hitBlocks.size() > 0)
-		{
-			HandleBlockCollision();
-		}
 	}
 }
 
