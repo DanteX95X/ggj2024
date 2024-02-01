@@ -5,8 +5,6 @@
 #include <godot_cpp/core/class_db.hpp>
 
 #include "register_types.h"
-#include "hello.h"
-#include "test/move_around.h"
 #include "game_logic/block.h"
 #include "game_logic/jar_block.h"
 #include "game_logic/game_manager.h"
@@ -17,8 +15,6 @@ void initialize_example_module(godot::ModuleInitializationLevel p_level) {
 		return;
 	}
 
-	godot::ClassDB::register_class<test::Hello>();
-	godot::ClassDB::register_class<test::MoveAround>();
 	godot::ClassDB::register_class<ggj::BaseBlock>();
 	godot::ClassDB::register_class<ggj::Block>();
 	godot::ClassDB::register_class<ggj::JarBlock>();
